@@ -58,3 +58,11 @@ a.es-locale {
 .error, .ErrorLabel, .EditingFormErrorLabel {
 	color: #F00;
 }
+
+div[data-role='page'] {
+	background-image: url(../images/background.jpg);
+	background-size: 100% 100%;
+	-webkit-background-size: 100% 100%;
+	-o-background-size: 100% 100%;
+	-moz-background-size: 100% 100%;
+}

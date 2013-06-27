@@ -5,17 +5,17 @@ var YtPlayers = new Array();
 var currentIndex = 0;
 var currentLanguage = "en";
 
-function currentMenu() { return jQuery(".menu." + currentLanguage).get(currentIndex); }
-function currentVideo() { return jQuery(".video." + currentLanguage).get(currentIndex); }
-function currentPlayer() { return jQuery(currentVideo()).find("video").get(0); }
-function currentYtPlayer() { return YtPlayers[jQuery(".ytplayer").index(jQuery(currentVideo()).find(".ytplayer").get(0))]; }
-function currentTubePlayer() { return jQuery(currentVideo()).find(".tubeplayer").get(0); }
+function currentMenuPage() { return jQuery(".menu-page." + currentLanguage).get(currentIndex); }
+function currentVideoPage() { return jQuery(".video-page." + currentLanguage).get(currentIndex); }
+function currentPlayer() { return jQuery(currentVideoPage()).find("video").get(0); }
+function currentYtPlayer() { return YtPlayers[jQuery(".ytplayer").index(jQuery(currentVideoPage()).find(".ytplayer").get(0))]; }
+function currentTubePlayer() { return jQuery(currentVideoPage()).find(".tubeplayer").get(0); }
 function nextIndex(index) { index++ ; if(index >= 4) index = 3; return index; }
 function prevIndex(index) { index-- ; if(index < 0) index = 0; return index; }
-function showCurrentMenu() { jQuery(currentMenu()).fadeIn("slow").show(); }
-function hideCurrentMenu() { jQuery(currentMenu()).hide(); }
-function showCurrentVideo() { jQuery(currentVideo()).fadeIn("slow"); }
-function hideCurrentVideo() { jQuery(currentVideo()).hide();  }
+function showCurrentMenu() { jQuery(currentMenuPage()).fadeIn("slow").show(); }
+function hideCurrentMenu() { jQuery(currentMenuPage()).hide(); }
+function showCurrentVideo() { jQuery(currentVideoPage()).fadeIn("slow"); }
+function hideCurrentVideo() { jQuery(currentVideoPage()).hide();  }
 function showBuffering() { jQuery("#buffering").hide(); }
 function hideBuffering() { jQuery("#buffering").hide(); }
 function hideMainMenu() { jQuery('#mainmenu').hide(); }
@@ -25,7 +25,7 @@ function clearForm() {
 	  jQuery("input[name*='phone']").val("");
 	  jQuery("input[name*='first_name']").val("");
 	  jQuery("input[name*='last_name']").val("");
-	  jQuery("input[name*='e_mail']").val("");
+	  jQuery("input[name*='mail']").val("");
 	  jQuery("input").removeClass("error");
 	  jQuery(".error").remove();
 	  jQuery(".ErrorLabel").remove();
@@ -34,7 +34,7 @@ function clearForm() {
 
 function playCurrentPlayer() {
 	if (currentIndex < 3) {
-		if (jQuery(currentVideo()).find(".tubeplayer").length>0) {
+		if (jQuery(currentVideoPage()).find(".tubeplayer").length>0) {
 			try {
 				var tubeplayer = currentTubePlayer();
 				jQuery(tubeplayer).tubeplayer("play");
@@ -43,7 +43,7 @@ function playCurrentPlayer() {
 				alert("tubeplayer:"+e);
 			}
 		}
-		else if (jQuery(currentVideo()).find(".ytplayer").length>0) {
+		else if (jQuery(currentVideoPage()).find(".ytplayer").length>0) {
 			try {
 				var ytplayer = currentYtPlayer();
 				ytplayer.playVideo();
@@ -66,7 +66,7 @@ function playCurrentPlayer() {
 
 function pauseCurrentPlayer() {
 	if (currentIndex < 3) {
-		if (jQuery(currentVideo()).find(".tubeplayer").length>0) {
+		if (jQuery(currentVideoPage()).find(".tubeplayer").length>0) {
 			try {
 				var tubeplayer = currentTubePlayer();
 				jQuery(tubeplayer).tubeplayer("pause");
@@ -75,7 +75,7 @@ function pauseCurrentPlayer() {
 				alert("tubeplayer:"+e);
 			}
 		}
-		else if (jQuery(currentVideo()).find(".ytplayer").length>0) {
+		else if (jQuery(currentVideoPage()).find(".ytplayer").length>0) {
 			try {
 				var ytplayer = currentYtPlayer();
 				ytplayer.pauseVideo();
@@ -179,8 +179,8 @@ function mobile_init() {
             clearForm();
         }
 	
-	jQuery(".video").hide();
-	jQuery(".menu").hide();
+	jQuery(".video-page").hide();
+	jQuery(".menu-page").hide();
 	hideBuffering();
 	hideMainMenu();
 	showCurrentMenu();
@@ -279,11 +279,20 @@ function mobile_init() {
 			} // if we've got an invalid param
 		});
 	});
+	
+	// Инициализация для YouTube Player API
+	if (jQuery(".ytplayer").length>0) {	
+		// Load the IFrame Player API code asynchronously.
+		var tag = document.createElement('script');
+		tag.src = "https://www.youtube.com/player_api";
+		var firstScriptTag = document.getElementsByTagName('script')[0];
+		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	}
 
 	jQuery("input[name*='expected_delivery_date']").attr("type","date");
 	jQuery("input[name*='due_date']").attr("type","date");
 	jQuery("input[name*='phone']").attr("type","tel");
-	jQuery("input[name*='e_mail']").attr("type","email");
+	jQuery("input[name*='mail']").attr("type","email");
 
 	jQuery("label[id*='url']").parent().hide();
 	jQuery("label[id*='ipad_id']").parent().hide();
@@ -326,7 +335,7 @@ function mobile_init() {
         clearForm();
 		currentIndex = 0;
 		while(currentIndex < 3
-		&& ("#"+jQuery(jQuery(".menu." + currentLanguage).get(currentIndex)).attr("id")) != jQuery(this).attr("href")) {
+		&& ("#"+jQuery(jQuery(".menu-page." + currentLanguage).get(currentIndex)).attr("id")) != jQuery(this).attr("href")) {
 			currentIndex++;
 		}
 		showCurrentMenu();
@@ -426,22 +435,11 @@ function mobile_init() {
 		currentLanguage = "es";
 		showCurrentMenu();
 	});
-	
-	// Load the IFrame Player API code asynchronously.
-	var tag = document.createElement('script');
-	tag.src = "https://www.youtube.com/player_api";
-	var firstScriptTag = document.getElementsByTagName('script')[0];
-	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
 }
 
 jQuery(document).ready(mobile_init);
 jQuery(document).ajaxStop(mobile_init);
 	  	  
-jQuery(document).bind("mobileinit", function(){
-  jQuery.mobile.ajaxEnabled = false;
-  jQuery.mobile.defaultPageTransition = 'none';
-});
 jQuery("#mainpage").live("pageinit",function(event) {
 	jQuery('input[type="submit"]').click(function(event) {
 		jQuery.mobile.ajaxEnabled = false;
