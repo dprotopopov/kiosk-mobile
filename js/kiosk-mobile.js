@@ -164,7 +164,35 @@ jQuery.tubeplayer.defaults.afterReady = function($player){
   	hideBuffering();
 }
 
-function mobile_init() {
+function crossDomainSubmit(item) {
+  // Add the iframe with a unique name
+  var uniqueString = "crossDomainForm-"+jQuery("iframe").length;
+  var iframe = document.createElement("iframe");
+  document.body.appendChild(iframe);
+  iframe.style.display = "none";
+  iframe.contentWindow.name = uniqueString;
+
+  // construct a form with hidden inputs, targeting the iframe
+  var form = document.createElement("form");
+  form.target = uniqueString;
+  form.action = item.attr("action");
+  form.method = item.attr("method");
+
+  // repeat for each parameter
+  item.find("input").each(function() {
+	  var input = document.createElement("input");
+	  input.type = "hidden";
+	  input.name = jQuery(this).attr("name");
+	  input.value = jQuery(this).val();
+	  form.appendChild(input);
+  });
+
+  document.body.appendChild(form);
+  form.submit();
+}
+
+
+jQuery(document).ready(function () {
     jQuery("a").attr("data-ajax","false");
 
 	if(jQuery("input[name*='url']").val()==jQuery(location).attr('href')) {
@@ -345,8 +373,8 @@ function mobile_init() {
 		if (jQuery('input[type="submit"]').length>0) {
 			jQuery('input[type="submit"]').click();
 		}
-		else if (jQuery('form').valid()) {
-			jQuery('form').ajaxSubmit({
+		else if (jQuery('#callbackForm').valid()) {
+			jQuery('#callbackForm').ajaxSubmit({
 				timeout:   3000, 
 				success:    function() { 
 					hideCurrentMenu();
@@ -354,10 +382,25 @@ function mobile_init() {
         			clearForm();
 					showCurrentMenu();
 				},
-				error:		function() {
-					alert("Error to send form");
+				beforeSend:		function(xhr, settings) {
+					console.log("xhr:",xhr);
+					console.log("settings:",settings);
+				},
+				error:		function(xhr, textStatus, thrownError) {
+					// Here's where you handle an error response.
+    				// Note that if the error was due to a CORS issue,
+    				// this function will still fire, but there won't be any additional
+    				// information about the error.
+					//alert("Error to send form");
+					console.log("xhr:",xhr);
+					console.log("textStatus:",textStatus);
+					console.log("thrownError:",thrownError);
+					
+					crossDomainSubmit(jQuery('#callbackForm'));
+					
 					hideCurrentMenu();
-					currentIndex = 3;
+					currentIndex = 4;
+        			clearForm();
 					showCurrentMenu();
 				}
 			});
@@ -435,19 +478,4 @@ function mobile_init() {
 		currentLanguage = "es";
 		showCurrentMenu();
 	});
-}
-
-jQuery(document).ready(mobile_init);
-jQuery(document).ajaxStop(mobile_init);
-	  	  
-jQuery("#mainpage").live("pageinit",function(event) {
-	jQuery('input[type="submit"]').click(function(event) {
-		jQuery.mobile.ajaxEnabled = false;
-		jQuery('form').removeAttr('action');
-		jQuery('form').attr('action',document.URL);
-	});
-});
-jQuery.ajaxSetup({
-    type: 'POST',
-    headers: { "cache-control": "no-cache" }
 });
