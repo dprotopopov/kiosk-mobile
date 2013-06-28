@@ -222,9 +222,9 @@ function urldecode (str) {
   return decodeURIComponent((str + '').replace(/\+/g, '%20'));
 }
 
-jQuery(document).ready(function () {
-    jQuery("a").attr("data-ajax","false");
-
+jQuery(document).on ('pageinit', '#main', function (event) {
+	console.log('pageinit', '#main');
+	
 	// Разбор строки запроса на элементы
 	var url = jQuery.url(jQuery(location).attr("href"));
 	
@@ -246,6 +246,14 @@ jQuery(document).ready(function () {
 	hideMainMenu();
 	hideSurveyDialog();
 	
+	jQuery("#surveyForm").submit(function (event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		jQuery("input[name*='doctor']").val(jQuery("input[name*='answer']").val()); 
+		hideSurveyDialog();
+		showCurrentMenu();
+		return false;
+	});
+	
 	// Открытие формы вопроса перед началом использования сайта
 	// Условие - либо нет iPadID, либо в строке адреса нет параметров
 	if(((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
@@ -255,13 +263,6 @@ jQuery(document).ready(function () {
 		showCurrentMenu();
 	}
 
-	jQuery("#surveyForm").submit(function (event) {
-		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		jQuery("input[name*='doctor']").val(jQuery("input[name*='answer']").val()); 
-		hideSurveyDialog();
-		showCurrentMenu();
-	});
-	
 	jQuery("video").each(function(i,e) {
 		var player = this;
 			
@@ -296,6 +297,7 @@ jQuery(document).ready(function () {
 	});
 
 	jQuery(".tubeplayer").each(function(i,e) {
+		console.log('tubeplayer', 'init');
 		jQuery(this).tubeplayer({
 			width: 280, // the width of the player
 			height: 200, // the height of the player
@@ -359,6 +361,7 @@ jQuery(document).ready(function () {
 	
 	// Инициализация для YouTube Player API
 	if (jQuery(".ytplayer").length) {	
+		console.log('ytplayer', 'init');
 		// Load the IFrame Player API code asynchronously.
 		var tag = document.createElement('script');
 		tag.src = "https://www.youtube.com/player_api";
@@ -412,6 +415,7 @@ jQuery(document).ready(function () {
 		jQuery("#callbackForm").validate();
 	}
 	
+	console.log('unbind', 'start');
 	jQuery(".mainmenu").unbind("vclick");
 	jQuery(".mainmenu-link").unbind("vclick");
 	jQuery(".save").unbind("vclick");
@@ -423,7 +427,9 @@ jQuery(document).ready(function () {
 	jQuery(".contact").unbind("vclick");
 	jQuery(".en-locale").unbind("vclick");
 	jQuery(".es-locale").unbind("vclick");
+	console.log('unbind', 'end');
 	
+	console.log('bind', 'start');
 	jQuery(".mainmenu").bind("vclick",function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		jQuery("#mainmenu").toggle();
@@ -431,6 +437,7 @@ jQuery(document).ready(function () {
 	
 	jQuery(".mainmenu-link").bind("vclick",function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
 		hideMainMenu();
 		pauseCurrentPlayer();
 		hideBuffering();
@@ -480,6 +487,7 @@ jQuery(document).ready(function () {
 	});
 	jQuery(".next").bind("vclick",function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
 		hideMainMenu();
 		pauseCurrentPlayer();
 		hideBuffering();
@@ -490,6 +498,7 @@ jQuery(document).ready(function () {
 	});
 	jQuery(".prev").bind("vclick",function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
 		hideMainMenu();
 		pauseCurrentPlayer();
 		hideBuffering();
@@ -500,12 +509,14 @@ jQuery(document).ready(function () {
 	});
 	jQuery(".play").bind("vclick",function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
 		hideMainMenu();
 		showBuffering();
 		playCurrentPlayer();
 	});
 	jQuery(".replay").bind("vclick",function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
 		hideMainMenu();
 		pauseCurrentPlayer();
 		hideBuffering();
@@ -516,6 +527,7 @@ jQuery(document).ready(function () {
 	});
 	jQuery(".home").bind("vclick",function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
 		hideMainMenu();
 		pauseCurrentPlayer();
 		hideBuffering();
@@ -525,6 +537,7 @@ jQuery(document).ready(function () {
 	});
 	jQuery(".contact").bind("vclick",function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
 		hideMainMenu();
 		pauseCurrentPlayer();
 		hideBuffering();
@@ -534,6 +547,7 @@ jQuery(document).ready(function () {
 	});
 	jQuery(".en-locale").bind("vclick",function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
 		hideMainMenu();
 		pauseCurrentPlayer();
 		hideBuffering();
@@ -543,6 +557,7 @@ jQuery(document).ready(function () {
 	});
 	jQuery(".es-locale").bind("vclick",function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
 		hideMainMenu();
 		pauseCurrentPlayer();
 		hideBuffering();
@@ -550,4 +565,5 @@ jQuery(document).ready(function () {
 		currentLanguage = "es";
 		showCurrentMenu();
 	});
+	console.log('bind', 'end');
 });

@@ -20,8 +20,6 @@
   <script src="js/jquery.js" type='text/javascript'></script>
   <script type="text/javascript">
 	$(document).bind('mobileinit',function(){
-		jQuery.mobile.ajaxEnabled = false;
-		jQuery.mobile.defaultPageTransition = 'none';
 		$.mobile.selectmenu.prototype.options.nativeMenu = false;
 		$.support.cors = true;
 		$.mobile.allowCrossDomainPages = true;
@@ -43,7 +41,7 @@
 </head>
 <body>
 <!-- Home -->
-<div data-role="page" id="mainpage">
+<div data-role="page" id="main">
     <div data-theme="b" data-role="header">
         <div data-role="navbar" data-iconpos="top">
             <ul>
@@ -286,10 +284,8 @@
             <input type="hidden" name="url" value=""/>
             <input type="hidden" name="ipad_id" value=""/>
 			<strong>Welcome to the Cord Blood<br />Education Program</strong>
+            <p>Please enter below the name of the Ob/Gyn practice or doctor where you heard about these videos:</p>
             <div data-role="fieldcontain">
-                <label for="answer">
-                    Please enter below the name of the Ob/Gyn practice or doctor where you heard about these videos:
-                </label>
                 <input type="text" id="answer" name="answer" class="" />
             </div>
             <div data-role="fieldcontain">
