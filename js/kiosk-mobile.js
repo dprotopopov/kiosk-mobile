@@ -19,6 +19,8 @@ function hideCurrentVideo() { jQuery(currentVideoPage()).hide();  }
 function showBuffering() { jQuery("#buffering").hide(); }
 function hideBuffering() { jQuery("#buffering").hide(); }
 function hideMainMenu() { jQuery('#mainmenu').hide(); }
+function showSurveyDialog() { jQuery("#surveyForm").fadeIn("slow"); } 
+function hideSurveyDialog() { jQuery("#surveyForm").hide(); }
 function clearForm() { 
 	  jQuery("input[name*='expected_delivery_date']").val("");
 	  jQuery("input[name*='due_date']").val("");
@@ -40,7 +42,7 @@ function playCurrentPlayer() {
 				jQuery(tubeplayer).tubeplayer("play");
 			}
 			catch(e) {
-				alert("tubeplayer:"+e);
+				console.log("tubeplayer:",e);
 			}
 		}
 		else if (jQuery(currentVideoPage()).find(".ytplayer").length>0) {
@@ -49,7 +51,7 @@ function playCurrentPlayer() {
 				ytplayer.playVideo();
 			}
 			catch(e) {
-				alert("youtube player api:"+e);
+				console.log("youtube player api:",e);
 			}
 		}
 		else {
@@ -58,7 +60,7 @@ function playCurrentPlayer() {
 				player.play();
 			}
 			catch(e) {
-				alert("video html5:"+e);
+				console.log("video html5:",e);
 			}
 		}
 	}
@@ -72,7 +74,7 @@ function pauseCurrentPlayer() {
 				jQuery(tubeplayer).tubeplayer("pause");
 			}
 			catch(e) {
-				alert("tubeplayer:"+e);
+				console.log("tubeplayer:",e);
 			}
 		}
 		else if (jQuery(currentVideoPage()).find(".ytplayer").length>0) {
@@ -81,7 +83,7 @@ function pauseCurrentPlayer() {
 				ytplayer.pauseVideo();
 			}
 			catch(e) {
-				alert("youtube player api:"+e);
+				console.log("youtube player api:",e);
 			}
 		}
 		else {
@@ -90,7 +92,7 @@ function pauseCurrentPlayer() {
 				player.pause();
 			}
 			catch(e) {
-				alert("video html5:"+e);
+				console.log("video html5:",e);
 			}
 		}
 	}
@@ -140,10 +142,10 @@ function onPlayerReady(event) {
   
 function onPlayerStateChange(event) {
 //	alert("Player's new state: " + event.data);
-	if (event.data == YT.PlayerState.BUFFERING)
-	  showBuffering();
-	
 	switch(event.data) {
+	case YT.PlayerState.BUFFERING:
+//		showBuffering();
+		break;
 	case YT.PlayerState.PAUSED:
 	  	hideBuffering();
 		break;
@@ -191,10 +193,41 @@ function crossDomainSubmit(item) {
   form.submit();
 }
 
+function urldecode (str) {
+  // http://kevin.vanzonneveld.net
+  // +   original by: Philip Peterson
+  // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // +      input by: AJ
+  // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // +   improved by: Brett Zamir (http://brett-zamir.me)
+  // +      input by: travc
+  // +      input by: Brett Zamir (http://brett-zamir.me)
+  // +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // +   improved by: Lars Fischer
+  // +      input by: Ratheous
+  // +   improved by: Orlando
+  // +      reimplemented by: Brett Zamir (http://brett-zamir.me)
+  // +      bugfixed by: Rob
+  // +      input by: e-mike
+  // +   improved by: Brett Zamir (http://brett-zamir.me)
+  // %        note 1: info on what encoding functions to use from: http://xkr.us/articles/javascript/encode-compare/
+  // %        note 2: Please be aware that this function expects to decode from UTF-8 encoded strings, as found on
+  // %        note 2: pages served as UTF-8
+  // *     example 1: urldecode('Kevin+van+Zonneveld%21');
+  // *     returns 1: 'Kevin van Zonneveld!'
+  // *     example 2: urldecode('http%3A%2F%2Fkevin.vanzonneveld.net%2F');
+  // *     returns 2: 'http://kevin.vanzonneveld.net/'
+  // *     example 3: urldecode('http%3A%2F%2Fwww.google.nl%2Fsearch%3Fq%3Dphp.js%26ie%3Dutf-8%26oe%3Dutf-8%26aq%3Dt%26rls%3Dcom.ubuntu%3Aen-US%3Aunofficial%26client%3Dfirefox-a');
+  // *     returns 3: 'http://www.google.nl/search?q=php.js&ie=utf-8&oe=utf-8&aq=t&rls=com.ubuntu:en-US:unofficial&client=firefox-a'
+  return decodeURIComponent((str + '').replace(/\+/g, '%20'));
+}
 
 jQuery(document).ready(function () {
     jQuery("a").attr("data-ajax","false");
 
+	// Разбор строки запроса на элементы
+	var url = jQuery.url(jQuery(location).attr("href"));
+	
 	if(jQuery("input[name*='url']").val()==jQuery(location).attr('href')) {
 		currentIndex = 3;
 	} else {
@@ -211,8 +244,24 @@ jQuery(document).ready(function () {
 	jQuery(".menu-page").hide();
 	hideBuffering();
 	hideMainMenu();
-	showCurrentMenu();
+	hideSurveyDialog();
+	
+	// Открытие формы вопроса перед началом использования сайта
+	// Условие - либо нет iPadID, либо в строке адреса нет параметров
+	if(((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
+	&& !url.attr("query") && !url.attr("fragment")) {
+		showSurveyDialog();
+	} else {
+		showCurrentMenu();
+	}
 
+	jQuery("#surveyForm").submit(function (event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		jQuery("input[name*='doctor']").val(jQuery("input[name*='answer']").val()); 
+		hideSurveyDialog();
+		showCurrentMenu();
+	});
+	
 	jQuery("video").each(function(i,e) {
 		var player = this;
 			
@@ -309,7 +358,7 @@ jQuery(document).ready(function () {
 	});
 	
 	// Инициализация для YouTube Player API
-	if (jQuery(".ytplayer").length>0) {	
+	if (jQuery(".ytplayer").length) {	
 		// Load the IFrame Player API code asynchronously.
 		var tag = document.createElement('script');
 		tag.src = "https://www.youtube.com/player_api";
@@ -331,6 +380,32 @@ jQuery(document).ready(function () {
 	jQuery("input[name*='ipad_id']").val(getID());
 	jQuery("input[name*='url']").val(jQuery(location).attr('href'));
 
+	// Заполняем элементы ввода значениями переданными в параметрах
+	url.attr("query").split("&").forEach(function (value,index) {
+		var ar = value.split("=");
+		jQuery("input[name*='"+ar[0]+"']").val(urldecode(ar[1]));
+	});
+
+	// Проверка встроенной поддержки для <input type="date">
+	// Если нет встроенной поддержки для <input type="date">,
+	// то заменяем <input type="date"> на <input type="text">
+	if (!Modernizr.inputtypes.date) {
+		jQuery("input[type='date']").attr("type","text");
+	}
+	
+	// Обработка поля due_date если нет встроенной поддержки для <input type="date">
+	jQuery("input[name*='due_date'][type='text']").focus(function(event) { 
+		jQuery( "input[name*='due_date']" ).datepicker( 
+			"dialog", 
+			jQuery("input[name*='due_date']").val() , 
+			function (date, inst) {
+				jQuery("input[name*='due_date']").val(date);
+			},
+			{
+				showButtonPanel: true
+			}
+		);
+	});
 	jQuery("input[name*='phone']").mask("(999) 999-9999");
 	
 	if (jQuery('#callbackForm input[type="submit"]').length==0) {
@@ -370,10 +445,7 @@ jQuery(document).ready(function () {
 	});
 	jQuery(".save").bind("vclick",function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		if (jQuery('input[type="submit"]').length>0) {
-			jQuery('input[type="submit"]').click();
-		}
-		else if (jQuery('#callbackForm').valid()) {
+		if (jQuery('#callbackForm').valid()) {
 			jQuery('#callbackForm').ajaxSubmit({
 				timeout:   3000, 
 				success:    function() { 
