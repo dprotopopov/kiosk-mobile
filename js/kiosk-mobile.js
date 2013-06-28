@@ -333,8 +333,8 @@ jQuery(document).ready(function () {
 
 	jQuery("input[name*='phone']").mask("(999) 999-9999");
 	
-	if (jQuery('input[type="submit"]').length==0) {
-		jQuery("form").validate();
+	if (jQuery('#callbackForm input[type="submit"]').length==0) {
+		jQuery("#callbackForm").validate();
 	}
 	
 	jQuery(".mainmenu").unbind("vclick");
