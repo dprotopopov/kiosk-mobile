@@ -114,7 +114,7 @@ function getID() {
 
 
 function onYouTubePlayerAPIReady() {
-	//alert("API is ready!");
+	console.log("YouTube Player API is ready!");
 	jQuery(".ytplayer").each(function(i,e) {
 		var ytplayer;
 		ytplayer = new YT.Player(jQuery(this).attr("id"), {
@@ -133,7 +133,7 @@ function onYouTubePlayerAPIReady() {
 }
 
 function onPlayerError(event) {
-	alert(event.data);
+	console.log(event.data);
 }
   
 function onPlayerReady(event) {
@@ -141,7 +141,7 @@ function onPlayerReady(event) {
 }
   
 function onPlayerStateChange(event) {
-//	alert("Player's new state: " + event.data);
+//	console.log("Player's new state: " + event.data);
 	switch(event.data) {
 	case YT.PlayerState.BUFFERING:
 //		showBuffering();
@@ -222,11 +222,16 @@ function urldecode (str) {
   return decodeURIComponent((str + '').replace(/\+/g, '%20'));
 }
 
-jQuery(document).on ('pageinit', '#main', function (event) {
+jQuery(document).bind ('pageinit', function (event) {
 	console.log('pageinit', '#main');
 	
 	// Разбор строки запроса на элементы
-	var url = jQuery.url(jQuery(location).attr("href"));
+	var url = false;
+	try {
+		url = jQuery.url(jQuery(location).attr("href"));
+	} catch (e) {
+		console.log("jQuery.url error",e);
+	}
 	
 	if(jQuery("input[name*='url']").val()==jQuery(location).attr('href')) {
 		currentIndex = 3;
@@ -257,7 +262,7 @@ jQuery(document).on ('pageinit', '#main', function (event) {
 	// Открытие формы вопроса перед началом использования сайта
 	// Условие - либо нет iPadID, либо в строке адреса нет параметров
 	if(((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
-	&& !url.attr("query") && !url.attr("fragment")) {
+	&& (!url || (!url.attr("query") && !url.attr("fragment")))) {
 		showSurveyDialog();
 	} else {
 		showCurrentMenu();
@@ -292,7 +297,7 @@ jQuery(document).on ('pageinit', '#main', function (event) {
 			showBuffering();
 		}, false);
 		player.addEventListener("error", function(e){
-			alert("an error in playback.");
+			console.log("an error in playback.");
 		}, false);
 	});
 
@@ -348,13 +353,13 @@ jQuery(document).on ('pageinit', '#main', function (event) {
 				showBuffering();
 			}, // when the player returns a state of buffering
 			onErrorNotFound: function(){
-				alert("a video cant be found");
+				console.log("a video cant be found");
 			}, // if a video cant be found
 			onErrorNotEmbeddable: function(){
-				alert("a video isnt embeddable");
+				console.log("a video isnt embeddable");
 			}, // if a video isnt embeddable
 			onErrorInvalidParameter: function(){
-				alert("we've got an invalid param");
+				console.log("we've got an invalid param");
 			} // if we've got an invalid param
 		});
 	});
@@ -380,14 +385,23 @@ jQuery(document).on ('pageinit', '#main', function (event) {
 	jQuery("input[id*='ipad_id']").parent().hide();
 	//jQuery("input[type='submit']").parent().hide();
 	
-	jQuery("input[name*='ipad_id']").val(getID());
-	jQuery("input[name*='url']").val(jQuery(location).attr('href'));
+	try {
+		jQuery("input[name*='ipad_id']").val(getID());
+		jQuery("input[name*='url']").val(jQuery(location).attr('href'));
+	} catch (e) {
+		console.log('error',e);
+	}
 
 	// Заполняем элементы ввода значениями переданными в параметрах
-	url.attr("query").split("&").forEach(function (value,index) {
-		var ar = value.split("=");
-		jQuery("input[name*='"+ar[0]+"']").val(urldecode(ar[1]));
-	});
+	try {
+		url.attr("query").split("&").forEach(function (value,index) {
+			var ar = value.split("=");
+			console.log(ar[0],ar[1]);
+			jQuery("input[name*='"+ar[0]+"']").val(urldecode(ar[1]));
+		});
+	} catch (e) {
+		console.log('url.attr("query").split("&").forEach error',e);
+	}
 
 	// Проверка встроенной поддержки для <input type="date">
 	// Если нет встроенной поддержки для <input type="date">,
@@ -470,7 +484,7 @@ jQuery(document).on ('pageinit', '#main', function (event) {
     				// Note that if the error was due to a CORS issue,
     				// this function will still fire, but there won't be any additional
     				// information about the error.
-					//alert("Error to send form");
+					console.log("Error to send form");
 					console.log("xhr:",xhr);
 					console.log("textStatus:",textStatus);
 					console.log("thrownError:",thrownError);
