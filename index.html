@@ -1,45 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <title>Safeguarding Stem Cells - Should you bank your newborn's cord blood? | Cryo-Cell Mobile</title>
-  <link rel="stylesheet" href="css/jquery.mobile.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Safeguarding Stem Cells - Should you bank your newborn's cord blood? | Cryo-Cell Mobile</title>
+    <link rel="stylesheet" href="css/jquery.mobile.css">
+    
+    <!-- Extra Codiqa features -->
+    <link rel="stylesheet" href="css/codiqa.ext.css">
+    <link rel="stylesheet" href="css/kiosk-mobile.css">
+    
+    <script src="phonegap.js"></script>
   
-  <!-- Extra Codiqa features -->
-  <link rel="stylesheet" href="css/codiqa.ext.css">
-  <link rel="stylesheet" href="css/kiosk-mobile.css">
+    <!-- jQuery and jQuery Mobile -->
+    <script src="js/jquery.js" type='text/javascript'></script>
+    <script type="text/javascript">
+        $(document).bind('mobileinit',function(event){
+            $.mobile.selectmenu.prototype.options.nativeMenu = false;
+            $.support.cors = true;
+            $.mobile.allowCrossDomainPages = true;
+            $.mobile.phonegapNavigationEnabled = true;
+            $.mobile.page.prototype.options.domCache = true;
+            $.mobile.ajaxEnabled=true;
+            $.mobile.pushStateEnabled=true;
+        });
+    </script>
+    <script src="js/jquery.mobile.js" type='text/javascript'></script>
   
-  <script src="phonegap.js"></script>
+    <script src="js/modernizr.js"></script>
 
-  <!-- jQuery and jQuery Mobile -->
-  <script src="js/jquery.js" type='text/javascript'></script>
-  <script type="text/javascript">
-	  $(document).bind('mobileinit',function(event){
-		  $.mobile.selectmenu.prototype.options.nativeMenu = false;
-		  $.support.cors = true;
-		  $.mobile.allowCrossDomainPages = true;
-		  $.mobile.phonegapNavigationEnabled = true;
-		  $.mobile.page.prototype.options.domCache = true;
-		  $.mobile.ajaxEnabled=true;
-		  $.mobile.pushStateEnabled=true;
-	  });
-  </script>
-  <script src="js/jquery.mobile.js" type='text/javascript'></script>
+    <script src="js/mobiscroll.core.js" type="text/javascript"></script>
 
-  <script src="js/modernizr.js"></script>
+    <script src="js/mobiscroll.datetime.js" type="text/javascript"></script>
+    <script src="js/mobiscroll.select.js" type="text/javascript"></script>
 
-  <!-- Extra Codiqa features -->
-  <script src="js/codiqa.ext.js" type='text/javascript'></script>
-  <script src='js/jquery.tubeplayer.js' type='text/javascript'></script>
-  <script src="js/jquery.fullscreen.js" type='text/javascript'></script>
-  <script src="js/jquery.validate.js" type='text/javascript'></script>
-  <script src="js/jquery.form.js" type='text/javascript'></script> 
-  <script src="js/jquery.maskedinput.js" type="text/javascript"></script>
-  <script src="js/purl.js" type="text/javascript"></script>
-  <script src="js/kiosk-mobile.js" type="text/javascript"></script>
+    <script src="js/mobiscroll.jqm.js" type="text/javascript"></script>
+    <script src="js/mobiscroll.ios.js" type="text/javascript"></script>
+    <script src="js/mobiscroll.android.js" type="text/javascript"></script>
+    <script src="js/mobiscroll.android-ics.js" type="text/javascript"></script>
+    <script src="js/mobiscroll.wp.js" type="text/javascript"></script>
+
+    <script src="i18n/mobiscroll.i18n.en.js" type="text/javascript"></script>
+    <script src="i18n/mobiscroll.i18n.cn.js" type="text/javascript"></script>
+    <script src="i18n/mobiscroll.i18n.ru.js" type="text/javascript"></script>
+    <script src="i18n/mobiscroll.i18n.de.js" type="text/javascript"></script>
+    <script src="i18n/mobiscroll.i18n.es.js" type="text/javascript"></script>
+    <script src="i18n/mobiscroll.i18n.fr.js" type="text/javascript"></script>
+    <script src="i18n/mobiscroll.i18n.hu.js" type="text/javascript"></script>    
+    <script src="i18n/mobiscroll.i18n.it.js" type="text/javascript"></script>
+    <script src="i18n/mobiscroll.i18n.no.js" type="text/javascript"></script>
+    <script src="i18n/mobiscroll.i18n.pt-BR.js" type="text/javascript"></script>
+    <script src="i18n/mobiscroll.i18n.zh.js" type="text/javascript"></script>
+    
+    <link href="css/mobiscroll.core.css" rel="stylesheet" type="text/css" />
+    <link href="css/mobiscroll.jqm.css" rel="stylesheet" type="text/css" />
+    <link href="css/mobiscroll.android.css" rel="stylesheet" type="text/css" />
+    <link href="css/mobiscroll.android-ics.css" rel="stylesheet" type="text/css" />
+    <link href="css/mobiscroll.ios.css" rel="stylesheet" type="text/css" />
+    <link href="css/mobiscroll.sense-ui.css" rel="stylesheet" type="text/css" />
+    <link href="css/mobiscroll.wp.css" rel="stylesheet" type="text/css" />
+
+    <link href="css/mobiscroll.animation.css" rel="stylesheet" type="text/css" />
+
+    <!-- Extra Codiqa features -->
+    <script src="js/codiqa.ext.js" type='text/javascript'></script>
+    <script src='js/jquery.tubeplayer.js' type='text/javascript'></script>
+    <script src="js/jquery.fullscreen.js" type='text/javascript'></script>
+    <script src="js/jquery.validate.js" type='text/javascript'></script>
+    <script src="js/jquery.form.js" type='text/javascript'></script> 
+    <script src="js/jquery.maskedinput.js" type="text/javascript"></script>
+    <script src="js/purl.js" type="text/javascript"></script>
+    <script src="js/kiosk-mobile.js" type="text/javascript"></script>
    
 </head>
 <body>

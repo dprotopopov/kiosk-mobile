@@ -406,10 +406,12 @@ jQuery(document).bind ('pageinit', function (event) {
 	// Проверка встроенной поддержки для <input type="date">
 	// Если нет встроенной поддержки для <input type="date">,
 	// то заменяем <input type="date"> на <input type="text">
+	// и обрабатываем поле с помощью mobiscroll
 	if (!Modernizr.inputtypes.date) {
-		jQuery("input[type='date']").attr("type","text");
+		jQuery("input[type='date']").attr("type","text").mobiscroll().date(jQuery.extend({theme:"jqm"},jQuery.mobiscroll.i18n[currentLanguage]));
 	}
-	
+
+/*	
 	// Обработка поля due_date если нет встроенной поддержки для <input type="date">
 	jQuery("input[name*='due_date'][type='text']").focus(function(event) { 
 		jQuery( "input[name*='due_date']" ).datepicker( 
@@ -423,6 +425,8 @@ jQuery(document).bind ('pageinit', function (event) {
 			}
 		);
 	});
+*/
+
 	jQuery("input[name*='phone']").mask("(999) 999-9999");
 	
 	if (jQuery('#callbackForm input[type="submit"]').length==0) {
