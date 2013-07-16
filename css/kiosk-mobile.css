@@ -13,48 +13,6 @@ body {
 	background-repeat: no-repeat;
 }
 
-
-.en-icon {
-	background-image: url(../images/flag-us.png);
-	background-repeat: no-repeat;
-	background-position: center center;
-	height: 80px;
-	width: 80px;
-	display: inline-block;
-	vertical-align: middle;
-	line-height: 80px;
-}
-
-.es-icon {
-	background-image: url(../images/flag-es.png);
-	background-repeat: no-repeat;
-	background-position: center center;
-	height: 80px;
-	width: 80px;
-	display: inline-block;
-	vertical-align: middle;
-	line-height: 80px;
-}
-
-a.languageSelector {
-	background-image: none;
-	background-color: none;
-}
-
-a.en-locale {
-	position: absolute;
-	height: 80px;
-	width: 80px;
-	top: 40px;
-	right: 120px;
-}
-a.es-locale {
-	position: absolute;
-	height: 80px;
-	width: 80px;
-	top: 40px;
-	right: 40px;
-}
 .error, .ErrorLabel, .EditingFormErrorLabel {
 	color: #F00;
 }
@@ -66,4 +24,11 @@ div[data-role='page'] {
 	-o-background-size: 100% 100%;
 	-moz-background-size: 100% 100%;
 	background-repeat: no-repeat;
+}
+
+.header-template,
+.footer-template,
+.survey-form-template,
+.menuvideo-page-template {
+	display:none;
 }

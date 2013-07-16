@@ -1,10 +1,461 @@
 jQuery.noConflict();
 
+// Определение воспроизводимого видео
+// Задаётся видео ID на YouTube и массив видео-файлов
+// В дальнейшем в зависимости от способа воспроизведения видео
+// будет воспроизводится либо видео с YouTube, либо из видео-файла
+var videos = {
+	en: {
+		video1: { 
+			videoId: "uuqGzMd808c",
+			sources: [ 
+				{ src:"video/CC_an_13.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/CC_an_13.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		},
+		video2: { 
+			videoId: "vYdjHhDGAUI",
+			sources: [ 
+				{ src:"video/One-Life-Saved-FINAL.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/One-Life-Saved-FINAL.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		},
+		video3: { 
+			videoId: "BJUN4LrXi88#!",
+			sources: [ 
+				{ src:"video/Cryo-Cell-Replication_Master-1280.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/Cryo-Cell-Replication_Master-1280.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		}
+	},
+	es: {
+		video1: { 
+			videoId: "uuqGzMd808c",
+			sources: [ 
+				{ src:"video/CC_an_13.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/CC_an_13.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		},
+		video2: { 
+			videoId: "vYdjHhDGAUI",
+			sources: [ 
+				{ src:"video/One-Life-Saved-Spanish-FINAL.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/One-Life-Saved-Spanish-FINAL.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		},
+		video3: { 
+			videoId: "BJUN4LrXi88#!",
+			sources: [ 
+				{ src:"video/Cryo-Cell-Replication_Master-1280.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/Cryo-Cell-Replication_Master-1280.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		}
+	},
+	ru: {
+		video1: { 
+			videoId: "uuqGzMd808c",
+			sources: [ 
+				{ src:"video/CC_an_13.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/CC_an_13.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		},
+		video2: { 
+			videoId: "vYdjHhDGAUI",
+			sources: [ 
+				{ src:"video/One-Life-Saved-FINAL.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/One-Life-Saved-FINAL.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		},
+		video3: { 
+			videoId: "BJUN4LrXi88#!",
+			sources: [ 
+				{ src:"video/Cryo-Cell-Replication_Master-1280.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/Cryo-Cell-Replication_Master-1280.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		}
+	},
+	it: {
+		video1: { 
+			videoId: "uuqGzMd808c",
+			sources: [ 
+				{ src:"video/CC_an_13.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/CC_an_13.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		},
+		video2: { 
+			videoId: "vYdjHhDGAUI",
+			sources: [ 
+				{ src:"video/One-Life-Saved-FINAL.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/One-Life-Saved-FINAL.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		},
+		video3: { 
+			videoId: "BJUN4LrXi88#!",
+			sources: [ 
+				{ src:"video/Cryo-Cell-Replication_Master-1280.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/Cryo-Cell-Replication_Master-1280.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		}
+	},
+	cn: {
+		video1: { 
+			videoId: "uuqGzMd808c",
+			sources: [ 
+				{ src:"video/CC_an_13.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/CC_an_13.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		},
+		video2: { 
+			videoId: "vYdjHhDGAUI",
+			sources: [ 
+				{ src:"video/One-Life-Saved-FINAL.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/One-Life-Saved-FINAL.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		},
+		video3: { 
+			videoId: "BJUN4LrXi88#!",
+			sources: [ 
+				{ src:"video/Cryo-Cell-Replication_Master-1280.mp4", type:'video/mp4; codecs="avc1.42E01E, mp4a.40.2"' },
+     			{ src:"video/Cryo-Cell-Replication_Master-1280.ogv", type:'video/ogg; codecs="theora, vorbis"' }
+			]
+		}
+	}
+};
+
+// Кнопки, отображаемые на странице с видео при остановке вопроизведения видео
+// Классы кнопок:
+//		button
+//		button-small
+//		button-mini
+//		button-small-mini
+var videoButtons = {
+	en: {
+		videoStop: { buttonClass:"button-small-mini", text:"Done" },
+		videoContact: { buttonClass:"button-mini", text:"Have Questions ?" }
+	},
+	es: {
+		videoStop: { buttonClass:"button-small-mini", text:"Hecho" },
+		videoContact: { buttonClass:"button-mini", text:"¿Tiene Preguntas?" }
+	},
+	ru: {
+		videoStop: { buttonClass:"button-small-mini", text:"Стоп" },
+		videoContact: { buttonClass:"button-mini", text:"У Вас вопросы ?" }
+	},
+	it: {
+		videoStop: { buttonClass:"button-small-mini", text:"Fatto" },
+		videoContact: { buttonClass:"button-mini", text:"Sono domande ?" }
+	},
+	cn: {
+		videoStop: { buttonClass:"button-small-mini", text:"完成" },
+		videoContact: { buttonClass:"button-mini", text:"有問題嗎？" }
+	}
+};
+
+// Кнопки, отображаемые на странице меню
+// Классы кнопок:
+//		button
+//		button-small
+//		button-mini
+//		button-small-mini
+var menuButtons = {
+	en: {
+		copyright: { buttonClass:"button", text:"Copyright © Cryo-Cell. All rights reserved." },
+		callUs: { buttonClass:"button", text:"Call Us" },
+		mainmenuToggle: { buttonClass:"button", text:"Menu" },
+		replay: { buttonClass:"button", text:"Replay" },
+		play: { buttonClass:"button", text:"Play" },
+		prev: { buttonClass:"button-small", text:"Prev" },
+		next: { buttonClass:"button-small", text:"Next" },
+		home: { buttonClass:"button", text:"Home" },
+		contact: { buttonClass:"button", text:"Have Questions ?" },
+		save: { buttonClass:"button", text:"Submit" }
+	},
+	es: {
+		copyright: { buttonClass:"button", text:"Copyright © Cryo-Cell. All rights reserved." },
+		callUs: { buttonClass:"button", text:"Call Us" },
+		mainmenuToggle: { buttonClass:"button", text:"Menu" },
+		replay: { buttonClass:"button", text:"Replay" },
+		play: { buttonClass:"button", text:"Play" },
+		prev: { buttonClass:"button-small", text:"Prev" },
+		next: { buttonClass:"button-small", text:"Next" },
+		home: { buttonClass:"button", text:"Página principal" },
+		contact: { buttonClass:"button", text:"¿Tiene Preguntas?" },
+		save: { buttonClass:"button", text:"Enviar" }
+	},
+	ru: {
+		copyright: { buttonClass:"button", text:"Право копирования © Cryo-Cell. Все права защищены." },
+		callUs: { buttonClass:"button", text:"Звонок" },
+		mainmenuToggle: { buttonClass:"button", text:"Меню" },
+		replay: { buttonClass:"button", text:"Повторить" },
+		play: { buttonClass:"button", text:"Воспроизвести" },
+		prev: { buttonClass:"button-small", text:"Пред" },
+		next: { buttonClass:"button-small", text:"След" },
+		home: { buttonClass:"button", text:"Главная" },
+		contact: { buttonClass:"button", text:"Вопросы ?" },
+		save: { buttonClass:"button", text:"Отправить" }
+	},
+	it: {
+		copyright: { buttonClass:"button", text:"Copyright © Cryo-Cell. All rights reserved." },
+		callUs: { buttonClass:"button", text:"Call Us" },
+		mainmenuToggle: { buttonClass:"button", text:"Menu" },
+		replay: { buttonClass:"button", text:"Replay" },
+		play: { buttonClass:"button", text:"Play" },
+		prev: { buttonClass:"button-small", text:"Prev" },
+		next: { buttonClass:"button-small", text:"Next" },
+		home: { buttonClass:"button", text:"Homepage" },
+		contact: { buttonClass:"button", text:"Sono domande ?" },
+		save: { buttonClass:"button", text:"Invia" }
+	},
+	cn: {
+		copyright: { buttonClass:"button", text:"Copyright © Cryo-Cell. All rights reserved." },
+		callUs: { buttonClass:"button", text:"Call Us" },
+		mainmenuToggle: { buttonClass:"button", text:"Menu" },
+		replay: { buttonClass:"button", text:"重播" },
+		play: { buttonClass:"button", text:"Play" },
+		prev: { buttonClass:"button-small", text:"Prev" },
+		next: { buttonClass:"button-small", text:"Next" },
+		home: { buttonClass:"button", text:"首頁" },
+		contact: { buttonClass:"button", text:"有問題嗎？" },
+		save: { buttonClass:"button", text:"提交" }
+	}
+};
+
+var mainmenuLinks = {
+	en: [
+		"Why should you store your baby’s cord blood?",
+		"How can cord blood save lives?",
+		"Why choose Cryo-Cell?",
+		"Contact Us"
+	],
+	es: [
+		"Why should you store your baby’s cord blood?",
+		"How can cord blood save lives?",
+		"Why choose Cryo-Cell?",
+		"Contact Us"
+	],
+	ru: [
+		"Почему надо сохранить пуповинную кровь?",
+		"Как пуповинная кровь спасает жизнь?",
+		"Почему выбирают Cryo-Cell?",
+		"Свяжитесь с нами"
+	],
+	it: [
+		"Why should you store your baby’s cord blood?",
+		"How can cord blood save lives?",
+		"Why choose Cryo-Cell?",
+		"Contact Us"
+	],
+	cn: [
+		"Why should you store your baby’s cord blood?",
+		"How can cord blood save lives?",
+		"Why choose Cryo-Cell?",
+		"Contact Us"
+	]
+};
+
+// Заголовки и субтитлы отображаемые на страницах
+// Задаются в виде html кода
+var pages = {
+	en: {
+		page1: { 
+			title: "Why should you store your baby’s cord blood?",
+			subtitle: "Watch an animated video on cord blood stem cells."
+		},
+		page2: {
+			title: "How can cord blood save lives?",
+			subtitle: "Watch a 3 minute video on one family’s story."
+		},
+		page3: { 
+			title: "Why choose <span nowrap>Cryo-Cell</span>?",
+			subtitle: "Watch a video on the world’s leading cord blood company."
+		},
+		page4: { 
+			title: "Thank you",
+			subtitle: "We hope you found these videos informative.<br />To learn more about our services, please fill in the contact form below."
+		},
+		page5: { 
+			title: "Thank you",
+			subtitle: "Your request has been sent.<br />One of our client services representatives will contact you shortly."
+		}
+	},
+	es: {
+		page1: { 
+			title: "¿Por qué almacenar la sangre del cordón umbilical de su bebé?",
+			subtitle: "Watch an animated video on cord blood stem cells."
+		},
+		page2: {
+			title: "Como la sangre del cordón umbilical salva vidas?",
+			subtitle: "Watch a 3 minute video on one family’s story."
+		},
+		page3: { 
+			title: "¿Por qué elegir <span nowrap>Cryo-Cell</span>?",
+			subtitle: "Watch a video on the world’s leading cord blood company."
+		},
+		page4: { 
+			title: "Gracias",
+			subtitle: "We hope you found these videos informative.<br />To learn more about our services, please fill in the contact form below."
+		},
+		page5: { 
+			title: "Gracias",
+			subtitle: "Your request has been sent.<br />One of our client services representatives will contact you shortly."
+		}
+	},
+	ru: {
+		page1: { 
+			title: "Почему Вы должны сохранить пуповинную кровь Вашего ребенка?",
+			subtitle: "Смотрите анимационное видео о стволовых клетках в пуповинной крови."
+		},
+		page2: {
+			title: "Как пуповинная кровь спасает жизнь?",
+			subtitle: "Смотрите 3-х минутное видео истории одной семьи."
+		},
+		page3: { 
+			title: "Почему выбирают <span nowrap>Cryo-Cell</span>?",
+			subtitle: "Смотрите видео о ведущей компании в мире, сохраняющей пуповинную кровь."
+		},
+		page4: { 
+			title: "Спасибо",
+			subtitle: "Мы надеемся, что вы нашли это видео полезным.<br />Чтобы узнать больше о наших услугах, пожалуйста, заполните форму ниже."
+		},
+		page5: { 
+			title: "Спасибо",
+			subtitle: "Ваше сообщение было отправлено.<br />Наш представитель по обслуживанию клиентов свяжется с Вами в ближайшее время."
+		}
+	},
+	it: {
+		page1: { 
+			title: "Why should you store your baby’s cord blood?",
+			subtitle: "Watch an animated video on cord blood stem cells."
+		},
+		page2: {
+			title: "How can cord blood save lives?",
+			subtitle: "Watch a 3 minute video on one family’s story."
+		},
+		page3: { 
+			title: "Perché scegliere <span nowrap>Cryo-Cell</span>?",
+			subtitle: "Watch a video on the world’s leading cord blood company."
+		},
+		page4: { 
+			title: "Grazie",
+			subtitle: "We hope you found these videos informative.<br />To learn more about our services, please fill in the contact form below."
+		},
+		page5: { 
+			title: "Grazie",
+			subtitle: "Your request has been sent.<br />One of our client services representatives will contact you shortly."
+		}
+	},
+	cn: {
+		page1: { 
+			title: "Why should you store<br />your baby’s cord blood?",
+			subtitle: "Watch an animated video on cord blood stem cells."
+		},
+		page2: {
+			title: "How can cord blood save lives?",
+			subtitle: "Watch a 3 minute video on one family’s story."
+		},
+		page3: { 
+			title: "為什麼選擇 <span nowrap>Cryo-Cell</span>?",
+			subtitle: "Watch a video on the world’s leading cord blood company."
+		},
+		page4: { 
+			title: "謝謝",
+			subtitle: "We hope you found these videos informative.<br />To learn more about our services, please fill in the contact form below."
+		},
+		page5: { 
+			title: "謝謝",
+			subtitle: "Your request has been sent.<br />One of our client services representatives will contact you shortly."
+		}
+	}
+};
+
+// Названия полей формы обратной связи
+// Задаются в виде обычного текста
+var formLabels = {
+	en: {
+		first_name: "First Name",
+		last_name: "Last Name",
+		due_date: "Expected Delivery Date",
+		phone_number: "Phone Number",
+		email: "Email",
+		doctor: "Doctor"
+	},
+	es: {
+		first_name: "Nombre",
+		last_name: "Apellido",
+		due_date: "Fecha esperada",
+		phone_number: "Número de teléfono",
+		email: "Email",
+		doctor: "Médico"
+	},
+	ru: {
+		first_name: "Имя",
+		last_name: "Фамилия",
+		due_date: "Ожидаемая дата",
+		phone_number: "Номер телефона",
+		email: "Email",
+		doctor: "Доктор"
+	},
+	it: {
+		first_name: "Nome",
+		last_name: "Cognome",
+		due_date: "Data di arrivo",
+		phone_number: "Numero di telefono",
+		email: "Email",
+		doctor: "Doctor"
+	},
+	cn: {
+		first_name: "名字",
+		last_name: "姓",
+		due_date: "預期日期",
+		phone_number: "電話號碼",
+		email: "電子郵件",
+		doctor: "醫生"
+	}
+};
+
+// Заголовок и вопрос в форме, открываемой при отсутствии параметров в адресной строке
+// Заголовок задаётся в виде html кода
+// Вопрос задаётся в виде обычного теста
+var surveys = {
+	en: {
+		title: "<strong>Welcome to the Cord Blood<br />Education Program</strong>",
+		label: "Please enter below the name of the Ob/Gyn practice or doctor where you heard about these videos:"
+	},
+	es: {
+		title: "<strong>Welcome to the Cord Blood<br />Education Program</strong>",
+		label: "Please enter below the name of the Ob/Gyn practice or doctor where you heard about these videos:"
+	},
+	ru: {
+		title: "<strong>Добро пожаловать в программу обучения<br />по сохранению пуповинной крови</strong>",
+		label: "Пожалуйста, укажите генекологическую практику или доктора, где или от которого Вы узнали об этом видео:"
+	},
+	it: {
+		title: "<strong>Welcome to the Cord Blood<br />Education Program</strong>",
+		label: "Please enter below the name of the Ob/Gyn practice or doctor where you heard about these videos:"
+	},
+	ch: {
+		title: "<strong>Welcome to the Cord Blood<br />Education Program</strong>",
+		label: "Please enter below the name of the Ob/Gyn practice or doctor where you heard about these videos:"
+	}
+};
+
+// Список поддерживаемых языков
+var languages = {
+	en: "English",
+	es: "Español",
+	ru: "Русский",
+	it: "Italiano",
+	cn: "中國的"
+};
+
 var YtPlayers = new Array();
 
 var currentIndex = 0;
 var currentLanguage = "en";
 
+var url = false;
+
+function currentCallbackForm() { return jQuery("#callbackForm",currentMenuPage()); }
 function currentMenuPage() { return jQuery(".menu-page." + currentLanguage).get(currentIndex); }
 function currentVideoPage() { return jQuery(".video-page." + currentLanguage).get(currentIndex); }
 function currentPlayer() { return jQuery(currentVideoPage()).find("video").get(0); }
@@ -12,15 +463,15 @@ function currentYtPlayer() { return YtPlayers[jQuery(".ytplayer").index(jQuery(c
 function currentTubePlayer() { return jQuery(currentVideoPage()).find(".tubeplayer").get(0); }
 function nextIndex(index) { index++ ; if(index >= 4) index = 3; return index; }
 function prevIndex(index) { index-- ; if(index < 0) index = 0; return index; }
-function showCurrentMenu() { jQuery(currentMenuPage()).fadeIn("slow").show(); }
-function hideCurrentMenu() { jQuery(currentMenuPage()).hide(); }
-function showCurrentVideo() { jQuery(currentVideoPage()).fadeIn("slow"); }
-function hideCurrentVideo() { jQuery(currentVideoPage()).hide();  }
+function showCurrentMenu() { jQuery.mobile.changePage("#"+jQuery(currentMenuPage()).attr("id")); }
+function hideCurrentMenu() { }
+function showCurrentVideo() { }
+function hideCurrentVideo() { }
 function showBuffering() { jQuery("#buffering").hide(); }
 function hideBuffering() { jQuery("#buffering").hide(); }
-function hideMainMenu() { jQuery('#mainmenu').hide(); }
-function showSurveyDialog() { jQuery("#surveyForm").fadeIn("slow"); } 
-function hideSurveyDialog() { jQuery("#surveyForm").hide(); }
+function hideMainMenu() { jQuery('.mainmenu').hide(); }
+function showSurveyDialog() { jQuery.mobile.changePage("#survey-"+currentLanguage); } 
+function hideSurveyDialog() { }
 function clearForm() { 
 	  jQuery("input[name*='expected_delivery_date']").val("");
 	  jQuery("input[name*='due_date']").val("");
@@ -42,7 +493,7 @@ function playCurrentPlayer() {
 				jQuery(tubeplayer).tubeplayer("play");
 			}
 			catch(e) {
-				console.log("tubeplayer:",e);
+				debugWrite("tubeplayer:",e);
 			}
 		}
 		else if (jQuery(currentVideoPage()).find(".ytplayer").length>0) {
@@ -51,7 +502,7 @@ function playCurrentPlayer() {
 				ytplayer.playVideo();
 			}
 			catch(e) {
-				console.log("youtube player api:",e);
+				debugWrite("youtube player api:",e);
 			}
 		}
 		else {
@@ -60,7 +511,7 @@ function playCurrentPlayer() {
 				player.play();
 			}
 			catch(e) {
-				console.log("video html5:",e);
+				debugWrite("video html5:",e);
 			}
 		}
 	}
@@ -74,7 +525,7 @@ function pauseCurrentPlayer() {
 				jQuery(tubeplayer).tubeplayer("pause");
 			}
 			catch(e) {
-				console.log("tubeplayer:",e);
+				debugWrite("tubeplayer:",e);
 			}
 		}
 		else if (jQuery(currentVideoPage()).find(".ytplayer").length>0) {
@@ -83,7 +534,7 @@ function pauseCurrentPlayer() {
 				ytplayer.pauseVideo();
 			}
 			catch(e) {
-				console.log("youtube player api:",e);
+				debugWrite("youtube player api:",e);
 			}
 		}
 		else {
@@ -92,7 +543,7 @@ function pauseCurrentPlayer() {
 				player.pause();
 			}
 			catch(e) {
-				console.log("video html5:",e);
+				debugWrite("video html5:",e);
 			}
 		}
 	}
@@ -113,8 +564,9 @@ function getID() {
 }
 
 
+/*  
 function onYouTubePlayerAPIReady() {
-	console.log("YouTube Player API is ready!");
+	debugWrite("YouTube Player API is ready!");
 	jQuery(".ytplayer").each(function(i,e) {
 		var ytplayer;
 		ytplayer = new YT.Player(jQuery(this).attr("id"), {
@@ -133,15 +585,15 @@ function onYouTubePlayerAPIReady() {
 }
 
 function onPlayerError(event) {
-	console.log(event.data);
+	debugWrite(event.data);
 }
   
 function onPlayerReady(event) {
   	hideBuffering();
 }
-  
+
 function onPlayerStateChange(event) {
-//	console.log("Player's new state: " + event.data);
+//	debugWrite("Player's new state: " + event.data);
 	switch(event.data) {
 	case YT.PlayerState.BUFFERING:
 //		showBuffering();
@@ -161,37 +613,56 @@ function onPlayerStateChange(event) {
 	  	break;
 	}
 }
+*/
 
+// Событие инициализации tubeplayer	  	  
 jQuery.tubeplayer.defaults.afterReady = function($player){
   	hideBuffering();
 }
 
+// Процедура кросс-доменной отправки содержимого формы ввода
+// Параметр - отправляемая форма ввода
 function crossDomainSubmit(item) {
-  // Add the iframe with a unique name
-  var uniqueString = "crossDomainForm-"+jQuery("iframe").length;
-  var iframe = document.createElement("iframe");
-  document.body.appendChild(iframe);
-  iframe.style.display = "none";
-  iframe.contentWindow.name = uniqueString;
-
-  // construct a form with hidden inputs, targeting the iframe
-  var form = document.createElement("form");
-  form.target = uniqueString;
-  form.action = item.attr("action");
-  form.method = item.attr("method");
-
-  // repeat for each parameter
-  item.find("input").each(function() {
-	  var input = document.createElement("input");
-	  input.type = "hidden";
-	  input.name = jQuery(this).attr("name");
-	  input.value = jQuery(this).val();
-	  form.appendChild(input);
-  });
-
-  document.body.appendChild(form);
-  form.submit();
+	// Add the iframe with a unique name
+	var uniqueString = "crossDomainForm-"+jQuery("iframe").length;
+	var iframe = document.createElement("iframe");
+	document.body.appendChild(iframe);
+	iframe.style.display = "none";
+	try {
+	  iframe.contentWindow.name = uniqueString;
+	} catch(e) {
+	  debugWrite('iframe.contentWindow.name error',e);
+	}
+	debugWrite('iframe.contentWindow.name',iframe.contentWindow.name);
+  
+	// construct a form with hidden inputs, targeting the iframe
+	var form = document.createElement("form");
+	form.target = iframe.contentWindow.name;
+	debugWrite('form.target',form.target);
+	debugWrite('item.attr("action")',item.attr("action"));
+	form.action = item.attr("action");
+	debugWrite('form.action',form.action);
+	debugWrite('item.attr("method")',item.attr("method"));
+	form.method = item.attr("method");
+	debugWrite('form.method',form.method);
+  
+	// repeat for each parameter
+	item.find("input").each(function(index, element) {
+		var input = document.createElement("input");
+		input.type = "hidden";
+		debugWrite("element.name",element.name);
+		input.name = element.name;
+		debugWrite("input.name",input.name);
+		debugWrite("element.value",element.value);
+		input.value = element.value;
+		debugWrite("input.value",input.value);
+		form.appendChild(input);
+	});
+  
+	document.body.appendChild(form);
+	form.submit();
 }
+
 
 function urldecode (str) {
   // http://kevin.vanzonneveld.net
@@ -222,36 +693,78 @@ function urldecode (str) {
   return decodeURIComponent((str + '').replace(/\+/g, '%20'));
 }
 
-jQuery(document).bind ('pageinit', function (event) {
-	console.log('pageinit', '#main');
-	
-	// Разбор строки запроса на элементы
-	var url = false;
+// Функция вывода сообщений трассировки
+// Обработка try-catch требуется для совместимости с IE
+function debugWrite(a,b) {
 	try {
-		url = jQuery.url(jQuery(location).attr("href"));
+		console.log(a,b);
 	} catch (e) {
-		console.log("jQuery.url error",e);
 	}
+}
+
+function createHeader(lang) {
+	var header = jQuery(".header-template").clone();
+	header.removeClass("header-template");
+	header.attr("data-role","header");
+	header.addClass(lang);
+	return header;
+}
+
+function createFooter(lang) {
+	var footer = jQuery(".footer-template").clone();
+	footer.removeClass("footer-template");
+	footer.attr("data-role","footer");
+	footer.addClass(lang);
+	return footer;
+}
+
+function createMainmenu(lang) {
+	var mainmenu = jQuery(".mainmenu-template").clone();
+	mainmenu.removeClass("mainmenu-template").addClass("mainmenu");
+	mainmenu.find("ul").attr("data-role","listview");
+	mainmenu.addClass(lang);
+	mainmenu.attr("id","mainmenu");
 	
-	if(jQuery("input[name*='url']").val()==jQuery(location).attr('href')) {
-		currentIndex = 3;
-	} else {
+	mainmenu.find(".mainmenu-link").each(function(index,element) {
+		jQuery(element).attr("href",jQuery(element).attr("href")+"-"+lang);
+		jQuery(element).text(mainmenuLinks[lang][index]);
+	});
+	
+	mainmenu.find(".mainmenu-link").bind("vclick",function(event,ui) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
+		hideMainMenu();
+		pauseCurrentPlayer();
+		hideBuffering();
+		hideCurrentMenu();
+        clearForm();
 		currentIndex = 0;
-	}
+		while(currentIndex < 3
+		&& ("#"+jQuery(jQuery(".menu-page." + currentLanguage).get(currentIndex)).attr("id")) != jQuery(this).attr("href")) {
+			currentIndex++;
+		}
+		showCurrentMenu();
+	});
+
+	return mainmenu;	
+}
+
+// Создание формы вопроса на указанном языке
+function createSurveyForm(lang) {
+	debugWrite("createSurveyForm","start");
+	debugWrite("lang",lang);
+	var form = jQuery(".survey-form-template").clone();
+	form.appendTo(jQuery("body")).removeClass("survey-form-template").addClass("survey-form");
+	form.addClass(lang);
+//	form.prepend(createHeader(lang));
+//	form.append(createFooter(lang));
+//	form.find("div[data-role='content']").prepend(createMainmenu(lang));
+	form.find("#title").html(surveys[lang].title);
+	form.find("#label").text(surveys[lang].label);
+	form.attr("id","survey-"+lang);
+	form.attr("data-role","page");
 	
-	if(jQuery(".InfoLabel").length) {
-			jQuery(".InfoLabel").remove();
-            currentIndex = 4;
-            clearForm();
-        }
-	
-	jQuery(".video-page").hide();
-	jQuery(".menu-page").hide();
-	hideBuffering();
-	hideMainMenu();
-	hideSurveyDialog();
-	
-	jQuery("#surveyForm").submit(function (event) {
+	form.find("form").submit(function (event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		jQuery("input[name*='doctor']").val(jQuery("input[name*='answer']").val()); 
 		hideSurveyDialog();
@@ -259,16 +772,41 @@ jQuery(document).bind ('pageinit', function (event) {
 		return false;
 	});
 	
-	// Открытие формы вопроса перед началом использования сайта
-	// Условие - либо нет iPadID, либо в строке адреса нет параметров
-	if(((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
-	&& (!url || (!url.attr("query") && !url.attr("fragment")))) {
-		showSurveyDialog();
-	} else {
-		showCurrentMenu();
+	debugWrite("createSurveyForm","end");
+}
+
+
+function createMenuVideoPage(lang, pageId) {
+	debugWrite("createMenuVideoPage","start");
+	debugWrite("pageId",pageId);
+	debugWrite("lang",lang);
+	var page = jQuery(".menuvideo-page-template#"+pageId).clone();
+	page.appendTo(jQuery("body")).removeClass("menuvideo-page-template").addClass("menu-page").addClass("video-page");
+	page.addClass(lang);
+	page.prepend(createHeader(lang));
+	page.append(createFooter(lang));
+	page.find("div[data-role='content']").prepend(createMainmenu(lang));
+	page.find("#title").html(pages[lang][pageId].title);
+	page.find("#subtitle").html(pages[lang][pageId].subtitle);
+	page.attr("id",pageId+"-"+lang);
+	page.attr("data-role","page");
+	
+	for(var lblFor in formLabels[lang]) {
+		page.find("label[for='"+lblFor+"']").text(formLabels[lang][lblFor]);
+	}
+	
+	for(var btn in menuButtons[lang]) {
+		page.find("."+btn+"").text(menuButtons[lang][btn].text);
 	}
 
-	jQuery("video").each(function(i,e) {
+	var languageSelector = "<img src='intl/flag-"+lang+".png' width='12px' height='12px' /><img src='images/none.png' width='12px' height='12px' />"+languages[lang];
+	page.find(".languageSelector").html(languageSelector);
+	
+	for(var vid in videos[lang]) {
+		page.find("#"+vid).attr("videoId",videos[lang][vid].videoId);
+	}
+	
+	page.find("video").each(function(i,e) {
 		var player = this;
 			
 //		player.onvclick = function(e){
@@ -297,12 +835,12 @@ jQuery(document).bind ('pageinit', function (event) {
 			showBuffering();
 		}, false);
 		player.addEventListener("error", function(e){
-			console.log("an error in playback.");
+			debugWrite("an error in playback.");
 		}, false);
 	});
 
-	jQuery(".tubeplayer").each(function(i,e) {
-		console.log('tubeplayer', 'init');
+	page.find(".tubeplayer").each(function(i,e) {
+		debugWrite('tubeplayer', 'init');
 		jQuery(this).tubeplayer({
 			width: 280, // the width of the player
 			height: 200, // the height of the player
@@ -353,27 +891,309 @@ jQuery(document).bind ('pageinit', function (event) {
 				showBuffering();
 			}, // when the player returns a state of buffering
 			onErrorNotFound: function(){
-				console.log("a video cant be found");
+				debugWrite("a video cant be found");
 			}, // if a video cant be found
 			onErrorNotEmbeddable: function(){
-				console.log("a video isnt embeddable");
+				debugWrite("a video isnt embeddable");
 			}, // if a video isnt embeddable
 			onErrorInvalidParameter: function(){
-				console.log("we've got an invalid param");
+				debugWrite("we've got an invalid param");
 			} // if we've got an invalid param
 		});
 	});
 	
+	// Проверка встроенной поддержки для <input type="date">
+	// Если нет встроенной поддержки для <input type="date">,
+	// то заменяем <input type="date"> на <input type="text">
+	// и обрабатываем поле с помощью mobiscroll
+	if (!Modernizr.inputtypes.date) {
+		page.find("input[type='date']").attr("type","text").mobiscroll().date(jQuery.extend({theme:"jqm"},jQuery.mobiscroll.i18n[lang]));
+	}
+	
+	debugWrite("Установка маски ввода (999) 999-9999","start");
+	try {
+		page.find("input[name*='phone']").mask("(999) 999-9999");
+	} catch (e) {
+		debugWrite('page.find("input[name*=\'phone\']").mask("(999) 999-9999") error',e);
+	}
+	debugWrite("Установка маски ввода (999) 999-9999","end");
+
+	debugWrite("Установка валидации форм","start");
+	try {
+		page.find("form").validate();
+	} catch (e) {
+		debugWrite('page.find("form").validate() error',e);
+	}
+	debugWrite("Установка валидации форм","end");
+
+	page.find("input").change(function(event) {
+		jQuery("input[name='"+jQuery(this).attr("name")+"']").val(jQuery(this).val());
+	});
+	
+	page.find(".save").bind("vclick",function(event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
+		hideMainMenu();
+		pauseCurrentPlayer();
+		hideBuffering();
+		var isValid = false;
+		debugWrite("Валидация формы обратной связи","start");
+		try {
+			var form = currentCallbackForm();
+			debugWrite('form',form.html());
+			isValid = form.valid();
+		} catch (e) {
+			debugWrite('form.valid() error',e);
+			debugWrite("Ручная валидация формы обратной связи","start");
+			jQuery("input").removeClass("error");
+			jQuery(".error").remove();
+			jQuery(".ErrorLabel").remove();
+			jQuery(".EditingFormErrorLabel").remove();
+			isValid = true;
+			var form = currentCallbackForm();
+			form.find("input.required").each(function(index, element) {
+				debugWrite("Валидация элемента",element.getAttribute("name"));
+                if(!element.value) {
+					debugWrite("Элемент не валидный",element);
+					isValid = false;
+					debugWrite("Добавление сообщения об ошибке","start");
+					//$(element).addClass("error");
+ 					var error = document.createElement("label");
+					error.setAttribute("for",element.getAttribute("name"));
+					error.className = 'error';
+					element.parentNode.appendChild(error);
+					debugWrite("Добавление сообщения об ошибке","end");
+				}
+            });
+			debugWrite("Ручная валидация формы обратной связи","end");
+		}
+		debugWrite("Валидация формы обратной связи","end");
+		if (isValid) {
+			debugWrite("Отправка формы обратной связи","start");
+			try {
+				var form = currentCallbackForm();
+				form.ajaxSubmit({
+					timeout:   3000,
+					dataFilter: function( data, type ) {
+						debugWrite("data:",data);
+						debugWrite("type:",type);
+					},
+					success:    function() { 
+						hideCurrentMenu();
+						currentIndex = 4;
+						clearForm();
+						showCurrentMenu();
+					},
+					beforeSend:		function(xhr, settings) {
+						debugWrite("xhr:",xhr);
+						debugWrite("settings:",settings);
+					},
+					error:		function(xhr, textStatus, thrownError) {
+						// Here's where you handle an error response.
+						// Note that if the error was due to a CORS issue,
+						// this function will still fire, but there won't be any additional
+						// information about the error.
+						debugWrite("#callbackForm","Error to send form");
+						debugWrite("xhr:",xhr);
+						debugWrite("textStatus:",textStatus);
+						debugWrite("thrownError:",thrownError);
+						debugWrite("Ручная отправка кросс-доменной формы обратной связи","start");
+						crossDomainSubmit(currentCallbackForm());
+						debugWrite("Ручная отправка кросс-доменной формы обратной связи","end");
+						
+						hideCurrentMenu();
+						currentIndex = 4;
+						clearForm();
+						showCurrentMenu();
+					}
+				});
+			} catch (e) {
+				debugWrite('currentCallbackForm().ajaxSubmit error',e);
+				debugWrite("Ручная отправка кросс-доменной формы обратной связи Попытка №2","start");
+				try {
+					crossDomainSubmit(currentCallbackForm());
+				} catch(e) {
+					debugWrite("crossDomainSubmit error",e);
+				}
+				debugWrite("Ручная отправка кросс-доменной формы обратной связи Попытка №2","end");
+				
+				hideCurrentMenu();
+				currentIndex = 4;
+				clearForm();
+				showCurrentMenu();
+			}
+			debugWrite("Отправка формы обратной связи","end");
+		}
+		return false;
+	});
+			
+	page.find(".next").bind("vclick",function(event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
+		hideMainMenu();
+		pauseCurrentPlayer();
+		hideBuffering();
+		hideCurrentMenu();
+		currentIndex = nextIndex(currentIndex);
+        clearForm();
+		showCurrentMenu();
+		return false;
+	});
+
+	page.find(".prev").bind("vclick",function(event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
+		hideMainMenu();
+		pauseCurrentPlayer();
+		hideBuffering();
+		hideCurrentMenu();
+		currentIndex = prevIndex(currentIndex);
+        clearForm();
+		showCurrentMenu();
+		return false;
+	});
+
+	page.find(".play").bind("vclick",function(event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
+		hideMainMenu();
+		showBuffering();
+		playCurrentPlayer();
+		return false;
+	});
+
+	page.find(".replay").bind("vclick",function(event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
+		hideMainMenu();
+		pauseCurrentPlayer();
+		hideBuffering();
+		hideCurrentMenu();
+		showBuffering();
+		currentIndex = prevIndex(currentIndex);
+		playCurrentPlayer();
+		return false;
+	});
+
+	page.find(".home").bind("vclick",function(event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
+		hideMainMenu();
+		pauseCurrentPlayer();
+		hideBuffering();
+		hideCurrentMenu();
+		currentIndex = 0;
+		showCurrentMenu();
+		return false;
+	});
+
+	page.find(".contact").bind("vclick",function(event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
+		hideMainMenu();
+		pauseCurrentPlayer();
+		hideBuffering();
+		hideCurrentMenu();
+		currentIndex = 3;
+		showCurrentMenu();
+		return false;
+	});
+	
+	page.find(".languageSelector").bind("vclick",function(event,ui) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
+		hideMainMenu();
+		pauseCurrentPlayer();
+		hideBuffering();
+		hideCurrentMenu();
+		jQuery.mobile.changePage("#languageSelector");
+		return false;
+	});
+
+	page.find(".mainmenuToggle").bind("vclick",function(event,ui) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		debugWrite("toggle",jQuery(".mainmenu"));
+		jQuery(".mainmenu").toggle();
+		return false;
+	});
+	
+	debugWrite("createMenuVideoPage","end");
+}
+
+function createPagesIfNotExists(lang) {
+	debugWrite("createPagesIfNotExists","start");
+	debugWrite("lang",lang);
+
+	if (jQuery(".menu-page."+lang).length==0) {
+		// Создание страниц меню
+		debugWrite("Создание страниц меню","start");
+		for(var pageId in pages[lang]) {
+			createMenuVideoPage(lang, pageId);
+		}
+		debugWrite("Создание страниц меню","end");
+	}
+	
+	debugWrite("createPagesIfNotExists","end");
+}
+
+jQuery(document).one ('pageshow', function (event) {
+	debugWrite('pageshow', 'one');
+	
+	// Разбор строки запроса на элементы
+	try {
+		url = jQuery.url(window.location.toString());
+	} catch (e) {
+		debugWrite("jQuery.url error",e);
+	}
+	
+	// Использование языка браузера в качестве начального языка страниц
+	debugWrite("Использование языка браузера в качестве начального языка страниц","start");
+	var userLang = navigator.language || navigator.userLanguage; 
+	userLang = userLang.substr(0,2);
+ 	debugWrite("The language is: ",userLang);
+	if (languages[userLang]) {
+		currentLanguage = userLang;
+	}
+	debugWrite("Использование языка браузера в качестве начального языка страниц","end");
+ 
+	if(jQuery("input[name*='url']").val()==jQuery(location).attr('href')) {
+		currentIndex = 3;
+	} else {
+		currentIndex = 0;
+	}
+	
+	if(jQuery(".InfoLabel").length) {
+		jQuery(".InfoLabel").remove();
+		currentIndex = 4;
+		clearForm();
+	}
+	
+	hideBuffering();
+	hideMainMenu();
+	hideSurveyDialog();
+
+/*	
+	debugWrite("hideDoctor","start");
+	hideDoctor();
+	debugWrite("hideDoctor","end");
+*/
+	
+	// Создание страниц для текущего языка
+	debugWrite("Создание страниц для текущего языка","start");
+	createPagesIfNotExists(currentLanguage);
+	debugWrite("Создание страниц для текущего языка","end");
+		
+/*
 	// Инициализация для YouTube Player API
 	if (jQuery(".ytplayer").length) {	
-		console.log('ytplayer', 'init');
+		debugWrite('ytplayer', 'init');
 		// Load the IFrame Player API code asynchronously.
 		var tag = document.createElement('script');
 		tag.src = "https://www.youtube.com/player_api";
 		var firstScriptTag = document.getElementsByTagName('script')[0];
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	}
-
+*/
 	jQuery("input[name*='expected_delivery_date']").attr("type","date");
 	jQuery("input[name*='due_date']").attr("type","date");
 	jQuery("input[name*='phone']").attr("type","tel");
@@ -387,201 +1207,49 @@ jQuery(document).bind ('pageinit', function (event) {
 	
 	try {
 		jQuery("input[name*='ipad_id']").val(getID());
-		jQuery("input[name*='url']").val(jQuery(location).attr('href'));
+		jQuery("input[name*='url']").val(window.location.toString());
 	} catch (e) {
-		console.log('error',e);
+		debugWrite('error',e);
 	}
 
 	// Заполняем элементы ввода значениями переданными в параметрах
 	try {
 		url.attr("query").split("&").forEach(function (value,index) {
 			var ar = value.split("=");
-			console.log(ar[0],ar[1]);
+			debugWrite(ar[0],ar[1]);
 			jQuery("input[name*='"+ar[0]+"']").val(urldecode(ar[1]));
 		});
 	} catch (e) {
-		console.log('url.attr("query").split("&").forEach error',e);
+		debugWrite('url.attr("query").split("&").forEach error',e);
 	}
 
-	// Проверка встроенной поддержки для <input type="date">
-	// Если нет встроенной поддержки для <input type="date">,
-	// то заменяем <input type="date"> на <input type="text">
-	// и обрабатываем поле с помощью mobiscroll
-	if (!Modernizr.inputtypes.date) {
-		jQuery("input[type='date']").attr("type","text").mobiscroll().date(jQuery.extend({theme:"jqm"},jQuery.mobiscroll.i18n[currentLanguage]));
+	// Открытие формы вопроса перед началом использования сайта
+	// Условие - либо нет iPadID, либо в строке адреса нет параметров
+	if(((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
+	&& (!url || (!url.attr("query") && !url.attr("fragment")))) {
+		createSurveyForm(currentLanguage);
+		showSurveyDialog();
+	} else {
+		showCurrentMenu();
 	}
+});
 
-/*	
-	// Обработка поля due_date если нет встроенной поддержки для <input type="date">
-	jQuery("input[name*='due_date'][type='text']").focus(function(event) { 
-		jQuery( "input[name*='due_date']" ).datepicker( 
-			"dialog", 
-			jQuery("input[name*='due_date']").val() , 
-			function (date, inst) {
-				jQuery("input[name*='due_date']").val(date);
-			},
-			{
-				showButtonPanel: true
-			}
-		);
-	});
-*/
-
-	jQuery("input[name*='phone']").mask("(999) 999-9999");
-	
-	if (jQuery('#callbackForm input[type="submit"]').length==0) {
-		jQuery("#callbackForm").validate();
+jQuery(document).on ("pagebeforecreate", "#languageSelector", function (event) {
+	debugWrite("pagebeforecreate", "#languageSelector");
+	for(var lang in languages) {
+		var btn = "<a href='#main-"+lang+"' data-role='button'><img src='intl/flag-"+lang+".png' width='12px' height='12px' /><img src='images/none.png' width='12px' height='12px' />"+languages[lang]+"</a>";
+		jQuery(btn).appendTo(jQuery(this).find("div[data-role='content']")).jqmData("lang",lang);
 	}
-	
-	console.log('unbind', 'start');
-	jQuery(".mainmenu").unbind("vclick");
-	jQuery(".mainmenu-link").unbind("vclick");
-	jQuery(".save").unbind("vclick");
-	jQuery(".next").unbind("vclick");
-	jQuery(".prev").unbind("vclick");
-	jQuery(".play").unbind("vclick");
-	jQuery(".replay").unbind("vclick");
-	jQuery(".home").unbind("vclick");
-	jQuery(".contact").unbind("vclick");
-	jQuery(".en-locale").unbind("vclick");
-	jQuery(".es-locale").unbind("vclick");
-	console.log('unbind', 'end');
-	
-	console.log('bind', 'start');
-	jQuery(".mainmenu").bind("vclick",function(event,ui) {
-		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		jQuery("#mainmenu").toggle();
-	});
-	
-	jQuery(".mainmenu-link").bind("vclick",function(event,ui) {
+	jQuery(this).find("a").bind("vclick",function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		hideSurveyDialog();
 		hideMainMenu();
 		pauseCurrentPlayer();
 		hideBuffering();
 		hideCurrentMenu();
-        clearForm();
-		currentIndex = 0;
-		while(currentIndex < 3
-		&& ("#"+jQuery(jQuery(".menu-page." + currentLanguage).get(currentIndex)).attr("id")) != jQuery(this).attr("href")) {
-			currentIndex++;
-		}
+		currentLanguage = jQuery(this).jqmData("lang");
+		createPagesIfNotExists(currentLanguage);
 		showCurrentMenu();
+		return false;
 	});
-	jQuery(".save").bind("vclick",function(event,ui) {
-		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		if (jQuery('#callbackForm').valid()) {
-			jQuery('#callbackForm').ajaxSubmit({
-				timeout:   3000, 
-				success:    function() { 
-					hideCurrentMenu();
-					currentIndex = 4;
-        			clearForm();
-					showCurrentMenu();
-				},
-				beforeSend:		function(xhr, settings) {
-					console.log("xhr:",xhr);
-					console.log("settings:",settings);
-				},
-				error:		function(xhr, textStatus, thrownError) {
-					// Here's where you handle an error response.
-    				// Note that if the error was due to a CORS issue,
-    				// this function will still fire, but there won't be any additional
-    				// information about the error.
-					console.log("Error to send form");
-					console.log("xhr:",xhr);
-					console.log("textStatus:",textStatus);
-					console.log("thrownError:",thrownError);
-					
-					crossDomainSubmit(jQuery('#callbackForm'));
-					
-					hideCurrentMenu();
-					currentIndex = 4;
-        			clearForm();
-					showCurrentMenu();
-				}
-			});
-		}
-	});
-	jQuery(".next").bind("vclick",function(event,ui) {
-		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		hideSurveyDialog();
-		hideMainMenu();
-		pauseCurrentPlayer();
-		hideBuffering();
-		hideCurrentMenu();
-		currentIndex = nextIndex(currentIndex);
-        clearForm();
-		showCurrentMenu();
-	});
-	jQuery(".prev").bind("vclick",function(event,ui) {
-		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		hideSurveyDialog();
-		hideMainMenu();
-		pauseCurrentPlayer();
-		hideBuffering();
-		hideCurrentMenu();
-		currentIndex = prevIndex(currentIndex);
-        clearForm();
-		showCurrentMenu();
-	});
-	jQuery(".play").bind("vclick",function(event,ui) {
-		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		hideSurveyDialog();
-		hideMainMenu();
-		showBuffering();
-		playCurrentPlayer();
-	});
-	jQuery(".replay").bind("vclick",function(event,ui) {
-		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		hideSurveyDialog();
-		hideMainMenu();
-		pauseCurrentPlayer();
-		hideBuffering();
-		hideCurrentMenu();
-		showBuffering();
-		currentIndex = prevIndex(currentIndex);
-		playCurrentPlayer();
-	});
-	jQuery(".home").bind("vclick",function(event,ui) {
-		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		hideSurveyDialog();
-		hideMainMenu();
-		pauseCurrentPlayer();
-		hideBuffering();
-		hideCurrentMenu();
-		currentIndex = 0;
-		showCurrentMenu();
-	});
-	jQuery(".contact").bind("vclick",function(event,ui) {
-		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		hideSurveyDialog();
-		hideMainMenu();
-		pauseCurrentPlayer();
-		hideBuffering();
-		hideCurrentMenu();
-		currentIndex = 3;
-		showCurrentMenu();
-	});
-	jQuery(".en-locale").bind("vclick",function(event,ui) {
-		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		hideSurveyDialog();
-		hideMainMenu();
-		pauseCurrentPlayer();
-		hideBuffering();
-		hideCurrentMenu();
-		currentLanguage = "en";
-		showCurrentMenu();
-	});
-	jQuery(".es-locale").bind("vclick",function(event,ui) {
-		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		hideSurveyDialog();
-		hideMainMenu();
-		pauseCurrentPlayer();
-		hideBuffering();
-		hideCurrentMenu();
-		currentLanguage = "es";
-		showCurrentMenu();
-	});
-	console.log('bind', 'end');
 });

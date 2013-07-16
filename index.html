@@ -87,38 +87,48 @@
   ga('send', 'pageview');
 </script>
 <!-- Home -->
-<div data-role="page" id="main">
-    <div data-theme="b" data-role="header">
-        <div data-role="navbar" data-iconpos="top">
-            <ul>
-                <li>
-                    <a href="tel:1-800-786-7235" data-transition="fade" data-theme="" data-icon="info">
-                        Call Us
-                    </a>
-                </li>
-                <li>
-                    <a href="#" data-transition="fade" data-theme="" data-icon="back" class="contact">
-                        Callback
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="ui-grid-a">
-            <div class="ui-block-a" style="text-align: center;">
-                <a href="index.html" data-ajax="false">
-                	<img src="images/cryocell-white.png" alt="CRYO-CELL" >
+<div data-role="page" id="welcome">
+    <div data-role="content"> 
+		<h1>Welcome to the Cord Blood<br />Education Program</h1>
+	</div>
+</div>
+
+<div data-theme="b" data-role="none" class="header-template">
+    <div data-role="navbar" data-iconpos="top">
+        <ul>
+            <li>
+                <a href="tel:1-800-786-7235" data-transition="fade" data-theme="" data-icon="info" class="callUs">
+                    Call Us
                 </a>
-            </div>
-            <div class="ui-block-b">
-                <a data-role="button" data-theme="b" href="#" data-icon="arrow-d" data-iconpos="right" class="mainmenu">
+            </li>
+            <li>
+                <a href="#" data-transition="fade" data-theme="" data-icon="back" class="contact">
+                    Callback
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div>
+            <a href="index.html" data-ajax="false">
+                <img src="images/cryocell-white.png" alt="CRYO-CELL" >
+            </a>
+    </div>
+    <div data-role="navbar" data-iconpos="left">
+        <ul>
+            <li>
+                <a href="#" data-icon="arrow-d" data-iconpos="right" class="mainmenuToggle">
                     Menu
                 </a>
-            </div>
-        </div>
+            </li>
+            <li>
+    			<a href="#languageSelector" data-rel="dialog" class="languageSelector"><img src="intl/flag-en.png" width="12px" height="12px" /></a>
+            </li>
+        </ul>
     </div>
-    <div data-role="content"> 
-<div id="mainmenu" style="display: none;">
-    <ul data-role="listview" class="ui-listview">
+</div>
+
+<div style="display: none;" class="mainmenu-template">
+    <ul data-role="none">
         <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right">
         <a href="#page1" class="mainmenu-link">Why should I save my cord blood?</a>
         </li>
@@ -133,204 +143,220 @@
         </li>
     </ul>
 </div>
-        <div id="page1" class="video-page menu-page en es">
-            <h1>Why should I save my cord blood?</h1>
 
-<div id="example_video_1" videoid="uuqGzMd808c" class="tubeplayer"></div>
+<div id="page1" data-role="none" class="menuvideo-page-template">
+    <div data-role="content"> 
+        <h1 id="title">Page Title</h1>
+        <p id="subtitle">Page Subtitle</p>
 
-            <a data-role="button" data-theme="b" href="#" class="save" style="display:none">
-                Submit
-            </a>
-            <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
-            class="play">
-                Play
-            </a>
-            <a data-role="button" data-theme="b" href="#" data-icon="refresh" data-iconpos="left"
-            class="home" style="display:none">
-                Watch again
-            </a>
-            <div class="ui-grid-a">
-                <div class="ui-block-a">
-                    <a data-role="button" data-theme="b" href="#" data-icon="arrow-l" data-iconpos="left"
-                    class="prev" style="display:none">
-                        Prev
-                    </a>
-                </div>
-                <div class="ui-block-b">
-                    <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
-                    class="next">
-                        Next
-                    </a>
-                </div>
+<div id="video1" videoid="uuqGzMd808c" class="tubeplayer"></div>
+
+        <a data-role="button" data-theme="b" href="#" class="save" style="display:none">
+            Submit
+        </a>
+        <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
+        class="play">
+            Play
+        </a>
+        <a data-role="button" data-theme="b" href="#" data-icon="refresh" data-iconpos="left"
+        class="home" style="display:none">
+            Watch again
+        </a>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <a data-role="button" data-theme="b" href="#" data-icon="arrow-l" data-iconpos="left"
+                class="prev" style="display:none">
+                    Prev
+                </a>
+            </div>
+            <div class="ui-block-b">
+                <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
+                class="next">
+                    Next
+                </a>
             </div>
         </div>
-        <div id="page2" class="video-page menu-page en es">
-            <h1>Cord Blood Saved My Life</h1>
+    </div>
+</div>
+<div id="page2" data-role="none" class="menuvideo-page-template">
+    <div data-role="content"> 
+        <h1 id="title">Page Title</h1>
+        <p id="subtitle">Page Subtitle</p>
 
-<div id="example_video_2" videoid="vYdjHhDGAUI" class="tubeplayer"></div>
+<div id="video2" videoid="vYdjHhDGAUI" class="tubeplayer"></div>
 
-            <a data-role="button" data-theme="b" href="#" class="save" style="display:none">
-                Submit
-            </a>
-            <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
-            class="play">
-                Play
-            </a>
-            <a data-role="button" data-theme="b" href="#" data-icon="refresh" data-iconpos="left"
-            class="home" style="display:none">
-                Watch again
-            </a>
-            <div class="ui-grid-a">
-                <div class="ui-block-a">
-                    <a data-role="button" data-theme="b" href="#" data-icon="arrow-l" data-iconpos="left"
-                    class="prev">
-                        Prev
-                    </a>
-                </div>
-                <div class="ui-block-b">
-                    <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
-                    class="next">
-                        Next
-                    </a>
-                </div>
+        <a data-role="button" data-theme="b" href="#" class="save" style="display:none">
+            Submit
+        </a>
+        <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
+        class="play">
+            Play
+        </a>
+        <a data-role="button" data-theme="b" href="#" data-icon="refresh" data-iconpos="left"
+        class="home" style="display:none">
+            Watch again
+        </a>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <a data-role="button" data-theme="b" href="#" data-icon="arrow-l" data-iconpos="left"
+                class="prev">
+                    Prev
+                </a>
+            </div>
+            <div class="ui-block-b">
+                <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
+                class="next">
+                    Next
+                </a>
             </div>
         </div>
-        <div id="page3" class="video-page menu-page en es">
-            <h1>Why Choose <span style="white-space:nowrap;">Cryo-Cell?</span></h1>
+    </div>
+</div>
+<div id="page3" data-role="none" class="menuvideo-page-template">
+    <div data-role="content"> 
+        <h1 id="title">Page Title</h1>
+        <p id="subtitle">Page Subtitle</p>
 
-<div id="example_video_3" videoid="BJUN4LrXi88#!" class="tubeplayer"></div>
+<div id="video3" videoid="BJUN4LrXi88#!" class="tubeplayer"></div>
 
-            <a data-role="button" data-theme="b" href="#" class="save" style="display:none">
-                Submit
-            </a>
-            <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
-            class="play">
-                Play
-            </a>
-            <a data-role="button" data-theme="b" href="#" data-icon="refresh" data-iconpos="left"
-            class="home" style="display:none">
-                Replay
-            </a>
-            <div class="ui-grid-a">
-                <div class="ui-block-a">
-                    <a data-role="button" data-theme="b" href="#" data-icon="arrow-l" data-iconpos="left"
-                    class="prev">
-                        Prev
-                    </a>
-                </div>
-                <div class="ui-block-b">
-                    <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
-                    class="next">
-                        Next
-                    </a>
-                </div>
+        <a data-role="button" data-theme="b" href="#" class="save" style="display:none">
+            Submit
+        </a>
+        <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
+        class="play">
+            Play
+        </a>
+        <a data-role="button" data-theme="b" href="#" data-icon="refresh" data-iconpos="left"
+        class="home" style="display:none">
+            Replay
+        </a>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <a data-role="button" data-theme="b" href="#" data-icon="arrow-l" data-iconpos="left"
+                class="prev">
+                    Prev
+                </a>
+            </div>
+            <div class="ui-block-b">
+                <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
+                class="next">
+                    Next
+                </a>
             </div>
         </div>
-        <div id="page4" class="menu-page en es">
-            <h1>Thank you</h1>
-            <p>We hope you found these videos informative.<br />To learn more about our services please fill in the contact form below.</p>
+    </div>
+</div>
+<div id="page4" data-role="none" class="menuvideo-page-template">
+    <div data-role="content"> 
+        <h1 id="title">Page Title</h1>
+        <p id="subtitle">Page Subtitle</p>
 
-            <form id="callbackForm" action="http://promos.cryo-cell.com/fsg?pageId=8ec38da2-ccb3-11e2-a1f8-12313e0080a1&variant=a" method="POST">
-                <input type="hidden" name="pageId" value="8ec38da2-ccb3-11e2-a1f8-12313e0080a1"/>
-                <input type="hidden" name="pageVariant" value="a"/>
-                <div>
-                    <input type="hidden" name="url" value="" data-role="none" />
-                    <input type="hidden" name="ipad_id" value="" data-role="none" />
-	                <input type="hidden" id="doctor" name="doctor" data-role="none" class=""/>
-                </div>
-                <div data-role="fieldcontain">
-                    <label for="first_name">
-                        First name
-                    </label>
-                    <input name="first_name" id="first_name" placeholder="" value="" type="text" class="required">
-                </div>
-                <div data-role="fieldcontain">
-                    <label for="last_name">
-                        Last name
-                    </label>
-                    <input name="last_name" id="last_name" placeholder="" value="" type="text" class="required">
-                </div>
-                <div data-role="fieldcontain">
-                    <label for="due_date">
-                        Due date
-                    </label>
-                    <input name="due_date" id="due_date" placeholder="" value="" type="date">
-                </div>
-                <div data-role="fieldcontain">
-                    <label for="phone_number">
-                        Phone
-                    </label>
-                    <input name="phone_number" id="phone_number" placeholder="" value="" type="tel" class="required">
-                </div>
-                <div data-role="fieldcontain">
-                    <label for="email">
-                        E-mail
-                    </label>
-                    <input name="email" id="email" placeholder="" value="" type="email" class="required email">
-                </div>
-            </form>
-            <a data-role="button" data-theme="b" href="#" class="save">
-                Submit
-            </a>
-            <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
-            class="play" style="display:none">
-                Play
-            </a>
-            <a data-role="button" data-theme="b" href="#" data-icon="refresh" data-iconpos="left"
-            class="home" style="display:none">
-                Watch again
-            </a>
-            <div class="ui-grid-a">
-                <div class="ui-block-a">
-                    <a data-role="button" data-theme="b" href="#" data-icon="arrow-l" data-iconpos="left"
-                    class="prev">
-                        Prev
-                    </a>
-                </div>
-                <div class="ui-block-b">
-                    <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
-                    class="next" style="display:none">
-                        Next
-                    </a>
-                </div>
+        <form id="callbackForm" action="http://promos.cryo-cell.com/fsg?pageId=8ec38da2-ccb3-11e2-a1f8-12313e0080a1&variant=a" method="POST">
+            <input type="hidden" name="pageId" value="8ec38da2-ccb3-11e2-a1f8-12313e0080a1"/>
+            <input type="hidden" name="pageVariant" value="a"/>
+            <div>
+                <input type="hidden" name="url" value="" data-role="none" />
+                <input type="hidden" name="ipad_id" value="" data-role="none" />
+                <input type="hidden" id="doctor" name="doctor" data-role="none" class=""/>
+            </div>
+            <div data-role="fieldcontain">
+                <label for="first_name">
+                    First name
+                </label>
+                <input name="first_name" id="first_name" placeholder="" value="" type="text" class="required">
+            </div>
+            <div data-role="fieldcontain">
+                <label for="last_name">
+                    Last name
+                </label>
+                <input name="last_name" id="last_name" placeholder="" value="" type="text" class="required">
+            </div>
+            <div data-role="fieldcontain">
+                <label for="due_date">
+                    Due date
+                </label>
+                <input name="due_date" id="due_date" placeholder="" value="" type="date">
+            </div>
+            <div data-role="fieldcontain">
+                <label for="phone_number">
+                    Phone
+                </label>
+                <input name="phone_number" id="phone_number" placeholder="" value="" type="tel" class="required">
+            </div>
+            <div data-role="fieldcontain">
+                <label for="email">
+                    E-mail
+                </label>
+                <input name="email" id="email" placeholder="" value="" type="email" class="required email">
+            </div>
+        </form>
+        <a data-role="button" data-theme="b" href="#" class="save">
+            Submit
+        </a>
+        <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
+        class="play" style="display:none">
+            Play
+        </a>
+        <a data-role="button" data-theme="b" href="#" data-icon="refresh" data-iconpos="left"
+        class="home" style="display:none">
+            Watch again
+        </a>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <a data-role="button" data-theme="b" href="#" data-icon="arrow-l" data-iconpos="left"
+                class="prev">
+                    Prev
+                </a>
+            </div>
+            <div class="ui-block-b">
+                <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
+                class="next" style="display:none">
+                    Next
+                </a>
             </div>
         </div>
-        <div id="page5" class="menu-page en es">
-            <h1>Thank you.<br/>Your request has been sent.<br />One of our client services representatives will contact you shortly.</h1>
-            <a data-role="button" data-theme="b" href="#" class="save" style="display:none">
-                Submit
-            </a>
-            <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
-            class="play" style="display:none">
-                Play
-            </a>
-            <a data-role="button" data-theme="b" href="#" data-icon="refresh" data-iconpos="left"
-            class="home">
-                Home
-            </a>
-            <div class="ui-grid-a">
-                <div class="ui-block-a">
-                    <a data-role="button" data-theme="b" href="#" data-icon="arrow-l" data-iconpos="left"
-                    class="prev" style="display:none">
-                        Prev
-                    </a>
-                </div>
-                <div class="ui-block-b">
-                    <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
-                    class="next" style="display:none">
-                        Next
-                    </a>
-                </div>
+    </div>
+</div>
+<div id="page5" data-role="none" class="menuvideo-page-template">
+    <div data-role="content"> 
+        <h1 id="title">Page Title</h1>
+        <p id="subtitle">Page Subtitle</p>
+        <a data-role="button" data-theme="b" href="#" class="save" style="display:none">
+            Submit
+        </a>
+        <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
+        class="play" style="display:none">
+            Play
+        </a>
+        <a data-role="button" data-theme="b" href="#" data-icon="refresh" data-iconpos="left"
+        class="home">
+            Home
+        </a>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <a data-role="button" data-theme="b" href="#" data-icon="arrow-l" data-iconpos="left"
+                class="prev" style="display:none">
+                    Prev
+                </a>
+            </div>
+            <div class="ui-block-b">
+                <a data-role="button" data-theme="b" href="#" data-icon="arrow-r" data-iconpos="right"
+                class="next" style="display:none">
+                    Next
+                </a>
             </div>
         </div>
-        
-        <form id="surveyForm" action="" method="POST" title="">
+     </div>
+</div>
+<div id="survey" data-role="none" class="survey-form-template">
+    <div data-role="content"> 
+        <form action="" method="POST" title="">
             <input type="hidden" name="pageId" value=""/>
             <input type="hidden" name="pageVariant" value=""/>
             <input type="hidden" name="url" value=""/>
             <input type="hidden" name="ipad_id" value=""/>
-			<strong>Welcome to the Cord Blood<br />Education Program</strong>
-            <p>Please enter below the name of the Ob/Gyn practice or doctor where you heard about these videos:</p>
+			<div id="title">Survey Form Title</div>
+            <p id="label">Survey Form Label</p>
             <div data-role="fieldcontain">
                 <input type="text" id="answer" name="answer" class="" />
             </div>
@@ -338,12 +364,17 @@
                 <input type="submit" value="Submit" data-theme="b" />
             </div>
         </form>
-
     </div>
-    <div data-theme="b" data-role="footer" data-position="fixed">
-        <h3>
-            Copyright &copy; Cryo-Cell. All rights reserved.
-        </h3>
+</div>
+
+<div data-theme="b" data-role="none" data-position="fixed" class="ui-bar footer-template">
+    <h3 class="copyright">
+        Copyright &copy; Cryo-Cell. All rights reserved.
+    </h3>
+</div>
+
+<div data-role="page" id="languageSelector">
+    <div data-role="content"> 
     </div>
 </div>
 <div id="buffering"></div>
