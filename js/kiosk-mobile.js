@@ -157,7 +157,7 @@ var videoButtons = {
 		videoContact: { buttonClass:"button-mini", text:"Have Questions ?" }
 	},
 	es: {
-		videoStop: { buttonClass:"button-small-mini", text:"Hecho" },
+		videoStop: { buttonClass:"button-small-mini", text:"Finalizado" },
 		videoContact: { buttonClass:"button-mini", text:"¿Tiene preguntas?" }
 	},
 	ru: {
@@ -186,7 +186,7 @@ var videoButtons = {
 //		button-small-mini
 var menuButtons = {
 	en: {
-		copyright: { buttonClass:"button", text:"Copyright © Cryo-Cell. All rights reserved." },
+		copyright: { buttonClass:"button", text:"Copyright © Cryo-Cell International. All rights reserved." },
 		callUs: { buttonClass:"button", text:"Call Us" },
 		mainmenuToggle: { buttonClass:"button", text:"Menu" },
 		replay: { buttonClass:"button", text:"Replay" },
@@ -198,19 +198,19 @@ var menuButtons = {
 		save: { buttonClass:"button", text:"Submit" }
 	},
 	es: {
-		copyright: { buttonClass:"button", text:"Copyright © Cryo-Cell. All rights reserved." },
-		callUs: { buttonClass:"button", text:"Call Us" },
-		mainmenuToggle: { buttonClass:"button", text:"Menu" },
+		copyright: { buttonClass:"button", text:"© Cryo-Cell International. Todos los Derechos Reservados." },
+		callUs: { buttonClass:"button", text:"Llámenos" },
+		mainmenuToggle: { buttonClass:"button", text:"Menú" },
 		replay: { buttonClass:"button", text:"Replay" },
-		play: { buttonClass:"button", text:"Play" },
-		prev: { buttonClass:"button-small", text:"Prev" },
-		next: { buttonClass:"button-small", text:"Next" },
+		play: { buttonClass:"button", text:"Reproducir" },
+		prev: { buttonClass:"button-small", text:"Anterior" },
+		next: { buttonClass:"button-small", text:"Siguiente" },
 		home: { buttonClass:"button", text:"Página principal" },
 		contact: { buttonClass:"button", text:"¿Tiene preguntas?" },
 		save: { buttonClass:"button", text:"Enviar" }
 	},
 	ru: {
-		copyright: { buttonClass:"button", text:"Право копирования © Cryo-Cell. Все права защищены." },
+		copyright: { buttonClass:"button", text:"Право копирования © Cryo-Cell International. Все права защищены." },
 		callUs: { buttonClass:"button", text:"Звонок" },
 		mainmenuToggle: { buttonClass:"button", text:"Меню" },
 		replay: { buttonClass:"button", text:"Повторить" },
@@ -222,7 +222,7 @@ var menuButtons = {
 		save: { buttonClass:"button", text:"Отправить" }
 	},
 	it: {
-		copyright: { buttonClass:"button", text:"Copyright © Cryo-Cell. All rights reserved." },
+		copyright: { buttonClass:"button", text:"Copyright © Cryo-Cell International. All rights reserved." },
 		callUs: { buttonClass:"button", text:"Call Us" },
 		mainmenuToggle: { buttonClass:"button", text:"Menu" },
 		replay: { buttonClass:"button", text:"Replay" },
@@ -234,25 +234,25 @@ var menuButtons = {
 		save: { buttonClass:"button", text:"Invia" }
 	},
 	cn: {
-		copyright: { buttonClass:"button", text:"Copyright © Cryo-Cell. All rights reserved." },
-		callUs: { buttonClass:"button", text:"Call Us" },
-		mainmenuToggle: { buttonClass:"button", text:"Menu" },
+		copyright: { buttonClass:"button", text:"©Cryo-Cell版权所有. 保留所有权利." },
+		callUs: { buttonClass:"button", text:"致电我们" },
+		mainmenuToggle: { buttonClass:"button", text:"选单" },
 		replay: { buttonClass:"button", text:"重播" },
-		play: { buttonClass:"button", text:"Play" },
-		prev: { buttonClass:"button-small", text:"Prev" },
-		next: { buttonClass:"button-small", text:"Next" },
+		play: { buttonClass:"button", text:"播放" },
+		prev: { buttonClass:"button-small", text:"前页" },
+		next: { buttonClass:"button-small", text:"下页" },
 		home: { buttonClass:"button", text:"首頁" },
 		contact: { buttonClass:"button", text:"有疑问吗？ " },
 		save: { buttonClass:"button", text:"提交" }
 	},
 	tw: {
-		copyright: { buttonClass:"button", text:"Copyright © Cryo-Cell. All rights reserved." },
-		callUs: { buttonClass:"button", text:"Call Us" },
-		mainmenuToggle: { buttonClass:"button", text:"Menu" },
+		copyright: { buttonClass:"button", text:"©Cryo-Cell版權所有. 保留所有權利." },
+		callUs: { buttonClass:"button", text:"致電我們" },
+		mainmenuToggle: { buttonClass:"button", text:"選單" },
 		replay: { buttonClass:"button", text:"重播" },
-		play: { buttonClass:"button", text:"Play" },
-		prev: { buttonClass:"button-small", text:"Prev" },
-		next: { buttonClass:"button-small", text:"Next" },
+		play: { buttonClass:"button", text:"播放" },
+		prev: { buttonClass:"button-small", text:"前頁" },
+		next: { buttonClass:"button-small", text:"下頁" },
 		home: { buttonClass:"button", text:"首頁" },
 		contact: { buttonClass:"button", text:"有疑問嗎？" },
 		save: { buttonClass:"button", text:"提交" }
@@ -270,7 +270,7 @@ var mainmenuLinks = {
 		"¿Por qué debe almacenar la sangre del cordón umbilical de su bebé?",
 		"¿Cómo puede la sangre del cordón umbilical salvar vidas?",
 		"¿Por qué elegir Cryo-Cell?",
-		"Contact Us"
+		"Contáctenos"
 	],
 	ru: [
 		"Почему надо сохранить пуповинную кровь?",
@@ -288,13 +288,13 @@ var mainmenuLinks = {
 		"为什么您应该储存宝宝的脐带血？",
 		"脐带血如何能挽救生命",
 		"为何选择Cryo-Cell?",
-		"Contact Us"
+		"与我们联系"
 	],
 	tw: [
 		"為什麼您應該儲存寶寶的臍帶血？",
 		"臍帶血如何能挽救生命？",
 		"為何選擇Cryo-Cell？",
-		"Contact Us"
+		"與我們聯繫"
 	]
 };
 
@@ -316,11 +316,11 @@ var pages = {
 		},
 		page4: { 
 			title: "Thank you",
-			subtitle: "We hope you found these videos informative.<br />To learn more about our services, please fill in the contact form below."
+			subtitle: "We hope you found these brief videos informative.<br />To learn more about our services, please fill in the contact form below."
 		},
 		page5: { 
 			title: "Thank you",
-			subtitle: "Your request has been sent.<br />One of our client services representatives will contact you shortly."
+			subtitle: "Your request has been sent.<br />One of our client services advisors will contact you shortly."
 		}
 	},
 	es: {
@@ -329,7 +329,7 @@ var pages = {
 			subtitle: "Vea un breve vídeo animado sobre las células madre del cordón umbilical."
 		},
 		page2: {
-			title: "¿Cómo puede la sangre del cordón umbilical salvar vidas?",
+			title: "¿Cómo la sangre del cordón umbilical puede salvar vidas?",
 			subtitle: "Vea el siguiente video de 3 minutos sobre la historia de una familia."
 		},
 		page3: { 
@@ -342,7 +342,7 @@ var pages = {
 		},
 		page5: { 
 			title: "Gracias",
-			subtitle: "Your request has been sent.<br />One of our client services representatives will contact you shortly."
+			subtitle: "Su solicitud ha sido enviada.<br />Muy pronto uno de nuestros asesores de servicio al cliente se pondrá en contacto con usted"
 		}
 	},
 	ru: {
@@ -408,7 +408,7 @@ var pages = {
 		},
 		page5: { 
 			title: "谢谢",
-			subtitle: "Your request has been sent.<br />One of our client services representatives will contact you shortly."
+			subtitle: "您的要求已发送<br />我们的客户服务代表将很快地与您联系."
 		}
 	},
 	tw: {
@@ -430,7 +430,7 @@ var pages = {
 		},
 		page5: { 
 			title: "謝謝",
-			subtitle: "Your request has been sent.<br />One of our client services representatives will contact you shortly."
+			subtitle: "您的要求已發送<br />我們的客戶服務代表將很快地與您聯繫."
 		}
 	}
 };
@@ -498,7 +498,7 @@ var surveys = {
 	},
 	es: {
 		title: "<strong>Bienvenido al programa de Educación de la Sangre del Cordón Umbilical</strong>",
-		label: "Por favor de ingresar el nombre del  consultorio o de su médico obstetra / ginecólogo:"
+		label: "Por favor ingresar el nombre del consultorio o de su médico obstetra / ginecólogo:"
 	},
 	ru: {
 		title: "<strong>Добро пожаловать в программу обучения<br />по сохранению пуповинной крови</strong>",
