@@ -1,5 +1,3 @@
-jQuery.noConflict();
-
 // Определение воспроизводимого видео
 // Задаётся видео ID на YouTube и массив видео-файлов
 // В дальнейшем в зависимости от способа воспроизведения видео
@@ -534,48 +532,48 @@ var currentLanguage = "en";
 
 var url = false;
 
-function currentCallbackForm() { return jQuery("#callbackForm",currentMenuPage()); }
-function currentMenuPage() { return jQuery(".menu-page." + currentLanguage).get(currentIndex); }
-function currentVideoPage() { return jQuery(".video-page." + currentLanguage).get(currentIndex); }
-function currentPlayer() { return jQuery(currentVideoPage()).find("video").get(0); }
-function currentYtPlayer() { return YtPlayers[jQuery(".ytplayer").index(jQuery(currentVideoPage()).find(".ytplayer").get(0))]; }
-function currentTubePlayer() { return jQuery(currentVideoPage()).find(".tubeplayer").get(0); }
+function currentCallbackForm() { return $("#callbackForm",currentMenuPage()); }
+function currentMenuPage() { return $(".menu-page." + currentLanguage).get(currentIndex); }
+function currentVideoPage() { return $(".video-page." + currentLanguage).get(currentIndex); }
+function currentPlayer() { return $(currentVideoPage()).find("video").get(0); }
+function currentYtPlayer() { return YtPlayers[$(".ytplayer").index($(currentVideoPage()).find(".ytplayer").get(0))]; }
+function currentTubePlayer() { return $(currentVideoPage()).find(".tubeplayer").get(0); }
 function nextIndex(index) { index++ ; if(index >= 4) index = 3; return index; }
 function prevIndex(index) { index-- ; if(index < 0) index = 0; return index; }
-function showCurrentMenu() { jQuery.mobile.changePage("#"+jQuery(currentMenuPage()).attr("id")); }
+function showCurrentMenu() { $.mobile.changePage("#"+$(currentMenuPage()).attr("id")); }
 function hideCurrentMenu() { }
 function showCurrentVideo() { }
 function hideCurrentVideo() { }
-function showBuffering() { jQuery("#buffering").hide(); }
-function hideBuffering() { jQuery("#buffering").hide(); }
-function hideMainMenu() { jQuery('.mainmenu').hide(); }
-function showSurveyDialog() { jQuery.mobile.changePage("#survey-"+currentLanguage); } 
+function showBuffering() { $("#buffering").hide(); }
+function hideBuffering() { $("#buffering").hide(); }
+function hideMainMenu() { $('.mainmenu').hide(); }
+function showSurveyDialog() { $.mobile.changePage("#survey-"+currentLanguage); } 
 function hideSurveyDialog() { }
 function clearForm() { 
-	  jQuery("input[name*='expected_delivery_date']").val("");
-	  jQuery("input[name*='due_date']").val("");
-	  jQuery("input[name*='phone']").val("");
-	  jQuery("input[name*='first_name']").val("");
-	  jQuery("input[name*='last_name']").val("");
-	  jQuery("input[name*='mail']").val("");
-	  jQuery("input").removeClass("error");
-	  jQuery(".error").remove();
-	  jQuery(".ErrorLabel").remove();
-	  jQuery(".EditingFormErrorLabel").remove();
+	  $("input[name*='expected_delivery_date']").val("");
+	  $("input[name*='due_date']").val("");
+	  $("input[name*='phone']").val("");
+	  $("input[name*='first_name']").val("");
+	  $("input[name*='last_name']").val("");
+	  $("input[name*='mail']").val("");
+	  $("input").removeClass("error");
+	  $(".error").remove();
+	  $(".ErrorLabel").remove();
+	  $(".EditingFormErrorLabel").remove();
 }
 
 function playCurrentPlayer() {
 	if (currentIndex < 3) {
-		if (jQuery(currentVideoPage()).find(".tubeplayer").length>0) {
+		if ($(currentVideoPage()).find(".tubeplayer").length>0) {
 			try {
 				var tubeplayer = currentTubePlayer();
-				jQuery(tubeplayer).tubeplayer("play");
+				$(tubeplayer).tubeplayer("play");
 			}
 			catch(e) {
 				debugWrite("tubeplayer:",e);
 			}
 		}
-		else if (jQuery(currentVideoPage()).find(".ytplayer").length>0) {
+		else if ($(currentVideoPage()).find(".ytplayer").length>0) {
 			try {
 				var ytplayer = currentYtPlayer();
 				ytplayer.playVideo();
@@ -598,16 +596,16 @@ function playCurrentPlayer() {
 
 function pauseCurrentPlayer() {
 	if (currentIndex < 3) {
-		if (jQuery(currentVideoPage()).find(".tubeplayer").length>0) {
+		if ($(currentVideoPage()).find(".tubeplayer").length>0) {
 			try {
 				var tubeplayer = currentTubePlayer();
-				jQuery(tubeplayer).tubeplayer("pause");
+				$(tubeplayer).tubeplayer("pause");
 			}
 			catch(e) {
 				debugWrite("tubeplayer:",e);
 			}
 		}
-		else if (jQuery(currentVideoPage()).find(".ytplayer").length>0) {
+		else if ($(currentVideoPage()).find(".ytplayer").length>0) {
 			try {
 				var ytplayer = currentYtPlayer();
 				ytplayer.pauseVideo();
@@ -646,13 +644,13 @@ function getID() {
 /*  
 function onYouTubePlayerAPIReady() {
 	debugWrite("YouTube Player API is ready!");
-	jQuery(".ytplayer").each(function(i,e) {
+	$(".ytplayer").each(function(i,e) {
 		var ytplayer;
-		ytplayer = new YT.Player(jQuery(this).attr("id"), {
+		ytplayer = new YT.Player($(this).attr("id"), {
           	width: '280',
 			height: '200',
 		  	allowfullscreen: 'true',
-		  	videoId: jQuery(this).attr("videoId"),
+		  	videoId: $(this).attr("videoId"),
 		  	events: {
 				'onReady': onPlayerReady,
 				'onStateChange': onPlayerStateChange,
@@ -695,7 +693,7 @@ function onPlayerStateChange(event) {
 */
 
 // Событие инициализации tubeplayer	  	  
-jQuery.tubeplayer.defaults.afterReady = function($player){
+$.tubeplayer.defaults.afterReady = function($player){
   	hideBuffering();
 }
 
@@ -703,7 +701,7 @@ jQuery.tubeplayer.defaults.afterReady = function($player){
 // Параметр - отправляемая форма ввода
 function crossDomainSubmit(item) {
 	// Add the iframe with a unique name
-	var uniqueString = "crossDomainForm-"+jQuery("iframe").length;
+	var uniqueString = "crossDomainForm-"+$("iframe").length;
 	var iframe = document.createElement("iframe");
 	document.body.appendChild(iframe);
 	iframe.style.display = "none";
@@ -782,7 +780,7 @@ function debugWrite(a,b) {
 }
 
 function createHeader(lang) {
-	var header = jQuery(".header-template").clone();
+	var header = $(".header-template").clone();
 	header.removeClass("header-template");
 	header.attr("data-role","header");
 	header.addClass(lang);
@@ -790,7 +788,7 @@ function createHeader(lang) {
 }
 
 function createFooter(lang) {
-	var footer = jQuery(".footer-template").clone();
+	var footer = $(".footer-template").clone();
 	footer.removeClass("footer-template");
 	footer.attr("data-role","footer");
 	footer.addClass(lang);
@@ -798,15 +796,15 @@ function createFooter(lang) {
 }
 
 function createMainmenu(lang) {
-	var mainmenu = jQuery(".mainmenu-template").clone();
+	var mainmenu = $(".mainmenu-template").clone();
 	mainmenu.removeClass("mainmenu-template").addClass("mainmenu");
 	mainmenu.find("ul").attr("data-role","listview");
 	mainmenu.addClass(lang);
 	mainmenu.attr("id","mainmenu");
 	
 	mainmenu.find(".mainmenu-link").each(function(index,element) {
-		jQuery(element).attr("href",jQuery(element).attr("href")+"-"+lang);
-		jQuery(element).text(mainmenuLinks[lang][index]);
+		$(element).attr("href",$(element).attr("href")+"-"+lang);
+		$(element).text(mainmenuLinks[lang][index]);
 	});
 	
 	mainmenu.find(".mainmenu-link").bind("vclick",function(event,ui) {
@@ -819,7 +817,7 @@ function createMainmenu(lang) {
         clearForm();
 		currentIndex = 0;
 		while(currentIndex < 3
-		&& ("#"+jQuery(jQuery(".menu-page." + currentLanguage).get(currentIndex)).attr("id")) != jQuery(this).attr("href")) {
+		&& ("#"+$($(".menu-page." + currentLanguage).get(currentIndex)).attr("id")) != $(this).attr("href")) {
 			currentIndex++;
 		}
 		showCurrentMenu();
@@ -832,8 +830,8 @@ function createMainmenu(lang) {
 function createSurveyForm(lang) {
 	debugWrite("createSurveyForm","start");
 	debugWrite("lang",lang);
-	var form = jQuery(".survey-form-template").clone();
-	form.appendTo(jQuery("body")).removeClass("survey-form-template").addClass("survey-form");
+	var form = $(".survey-form-template").clone();
+	form.appendTo($("body")).removeClass("survey-form-template").addClass("survey-form");
 	form.addClass(lang);
 //	form.prepend(createHeader(lang));
 //	form.append(createFooter(lang));
@@ -845,13 +843,15 @@ function createSurveyForm(lang) {
 	
 	form.find("form").submit(function (event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		jQuery("input[name*='doctor']").val(jQuery("input[name*='answer']").val()); 
+		$("input[name*='doctor']").val($("input[name*='answer']").val()); 
 		hideSurveyDialog();
 		showCurrentMenu();
 		return false;
 	});
 	
 	debugWrite("createSurveyForm","end");
+	
+	return form;
 }
 
 
@@ -859,8 +859,8 @@ function createMenuVideoPage(lang, pageId) {
 	debugWrite("createMenuVideoPage","start");
 	debugWrite("pageId",pageId);
 	debugWrite("lang",lang);
-	var page = jQuery(".menuvideo-page-template#"+pageId).clone();
-	page.appendTo(jQuery("body")).removeClass("menuvideo-page-template").addClass("menu-page").addClass("video-page");
+	var page = $(".menuvideo-page-template#"+pageId).clone();
+	page.appendTo($("body")).removeClass("menuvideo-page-template").addClass("menu-page").addClass("video-page");
 	page.addClass(lang);
 	page.prepend(createHeader(lang));
 	page.append(createFooter(lang));
@@ -892,7 +892,7 @@ function createMenuVideoPage(lang, pageId) {
 //			this.pause();
 //		};
 		player.addEventListener("ended", function(e){
-			jQuery(this).fullScreen(false);
+			$(this).fullScreen(false);
 			hideMainMenu();
 			hideCurrentVideo();
 			hideBuffering();
@@ -901,7 +901,7 @@ function createMenuVideoPage(lang, pageId) {
 		}, false);
 		player.addEventListener("playing", function(e){
 			hideBuffering();
-			jQuery(this).fullScreen(true);
+			$(this).fullScreen(true);
 //			hideCurrentMenu();
 //			showCurrentVideo();
 		}, false);
@@ -920,11 +920,11 @@ function createMenuVideoPage(lang, pageId) {
 
 	page.find(".tubeplayer").each(function(i,e) {
 		debugWrite('tubeplayer', 'init');
-		jQuery(this).tubeplayer({
+		$(this).tubeplayer({
 			width: 280, // the width of the player
 			height: 200, // the height of the player
 			allowFullScreen: "true", // true by default, allow user to go full screen
-			initialVideo: jQuery(this).attr("videoId"), // the video that is loaded into the player
+			initialVideo: $(this).attr("videoId"), // the video that is loaded into the player
 			start: 0, 
 			preferredQuality: "default",// preferred quality: default, small, medium, large, hd720
 			showControls: 1, // whether the player should have the controls visible, 0 or 1
@@ -986,7 +986,7 @@ function createMenuVideoPage(lang, pageId) {
 	// то заменяем <input type="date"> на <input type="text">
 	// и обрабатываем поле с помощью mobiscroll
 	if (!Modernizr.inputtypes.date) {
-		page.find("input[type='date']").attr("type","text").mobiscroll().date(jQuery.extend({theme:"jqm"},jQuery.mobiscroll.i18n[lang]));
+		page.find("input[type='date']").attr("type","text").mobiscroll().date($.extend({theme:"jqm"},$.mobiscroll.i18n[lang]));
 	}
 	
 	debugWrite("Установка маски ввода (999) 999-9999","start");
@@ -1006,7 +1006,7 @@ function createMenuVideoPage(lang, pageId) {
 	debugWrite("Установка валидации форм","end");
 
 	page.find("input").change(function(event) {
-		jQuery("input[name='"+jQuery(this).attr("name")+"']").val(jQuery(this).val());
+		$("input[name='"+$(this).attr("name")+"']").val($(this).val());
 	});
 	
 	page.find(".save").bind("vclick",function(event) {
@@ -1024,10 +1024,10 @@ function createMenuVideoPage(lang, pageId) {
 		} catch (e) {
 			debugWrite('form.valid() error',e);
 			debugWrite("Ручная валидация формы обратной связи","start");
-			jQuery("input").removeClass("error");
-			jQuery(".error").remove();
-			jQuery(".ErrorLabel").remove();
-			jQuery(".EditingFormErrorLabel").remove();
+			$("input").removeClass("error");
+			$(".error").remove();
+			$(".ErrorLabel").remove();
+			$(".EditingFormErrorLabel").remove();
 			isValid = true;
 			var form = currentCallbackForm();
 			form.find("input.required").each(function(index, element) {
@@ -1185,14 +1185,14 @@ function createMenuVideoPage(lang, pageId) {
 		pauseCurrentPlayer();
 		hideBuffering();
 		hideCurrentMenu();
-		jQuery.mobile.changePage("#languageSelector");
+		$.mobile.changePage("#languageSelector");
 		return false;
 	});
 
 	page.find(".mainmenuToggle").bind("vclick",function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
-		debugWrite("toggle",jQuery(".mainmenu"));
-		jQuery(".mainmenu").toggle();
+		debugWrite("toggle",$(".mainmenu"));
+		$(".mainmenu").toggle();
 		return false;
 	});
 	
@@ -1203,7 +1203,7 @@ function createPagesIfNotExists(lang) {
 	debugWrite("createPagesIfNotExists","start");
 	debugWrite("lang",lang);
 
-	if (jQuery(".menu-page."+lang).length==0) {
+	if ($(".menu-page."+lang).length==0) {
 		// Создание страниц меню
 		debugWrite("Создание страниц меню","start");
 		for(var pageId in pages[lang]) {
@@ -1215,14 +1215,14 @@ function createPagesIfNotExists(lang) {
 	debugWrite("createPagesIfNotExists","end");
 }
 
-jQuery(document).one ('pageshow', function (event) {
-	debugWrite('pageshow', 'one');
+$(document).ready(function (event) {
+	debugWrite('ready', 'start');
 	
 	// Разбор строки запроса на элементы
 	try {
-		url = jQuery.url(window.location.toString());
+		url = $.url(window.location.toString());
 	} catch (e) {
-		debugWrite("jQuery.url error",e);
+		debugWrite("$.url error",e);
 	}
 	
 	// Использование языка браузера в качестве начального языка страниц
@@ -1235,14 +1235,14 @@ jQuery(document).one ('pageshow', function (event) {
 	}
 	debugWrite("Использование языка браузера в качестве начального языка страниц","end");
  
-	if(jQuery("input[name*='url']").val()==jQuery(location).attr('href')) {
+	if($("input[name*='url']").val()==$(location).attr('href')) {
 		currentIndex = 3;
 	} else {
 		currentIndex = 0;
 	}
 	
-	if(jQuery(".InfoLabel").length) {
-		jQuery(".InfoLabel").remove();
+	if($(".InfoLabel").length) {
+		$(".InfoLabel").remove();
 		currentIndex = 4;
 		clearForm();
 	}
@@ -1264,7 +1264,7 @@ jQuery(document).one ('pageshow', function (event) {
 		
 /*
 	// Инициализация для YouTube Player API
-	if (jQuery(".ytplayer").length) {	
+	if ($(".ytplayer").length) {	
 		debugWrite('ytplayer', 'init');
 		// Load the IFrame Player API code asynchronously.
 		var tag = document.createElement('script');
@@ -1273,60 +1273,79 @@ jQuery(document).one ('pageshow', function (event) {
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	}
 */
-	jQuery("input[name*='expected_delivery_date']").attr("type","date");
-	jQuery("input[name*='due_date']").attr("type","date");
-	jQuery("input[name*='phone']").attr("type","tel");
-	jQuery("input[name*='mail']").attr("type","email");
 
-	jQuery("label[id*='url']").parent().hide();
-	jQuery("label[id*='ipad_id']").parent().hide();
-	jQuery("input[id*='url']").parent().hide();
-	jQuery("input[id*='ipad_id']").parent().hide();
-	//jQuery("input[type='submit']").parent().hide();
+	debugWrite("Устанавливаем типы полей ввода","start");
+	$("input[name*='expected_delivery_date']").attr("type","date");
+	$("input[name*='due_date']").attr("type","date");
+	$("input[name*='phone']").attr("type","tel");
+	$("input[name*='mail']").attr("type","email");
+	debugWrite("Устанавливаем типы полей ввода","end");
+
+	debugWrite("Скрываем не используемые поля","start");
+	$("label[id*='url']").parent().hide();
+	$("label[id*='ipad_id']").parent().hide();
+	$("input[id*='url']").parent().hide();
+	$("input[id*='ipad_id']").parent().hide();
+	//$("input[type='submit']").parent().hide();
+	debugWrite("Скрываем не используемые поля","end");
 	
+	debugWrite("Заполняем поля ipad_id и url","start");
 	try {
-		jQuery("input[name*='ipad_id']").val(getID());
-		jQuery("input[name*='url']").val(window.location.toString());
+		$("input[name*='ipad_id']").val(getID());
+		$("input[name*='url']").val(window.location.toString());
 	} catch (e) {
 		debugWrite('error',e);
 	}
+	debugWrite("Заполняем поля ipad_id и url","end");
 
-	// Заполняем элементы ввода значениями переданными в параметрах
+	debugWrite("Заполняем элементы ввода значениями переданными в параметрах","start");
 	try {
 		url.attr("query").split("&").forEach(function (value,index) {
 			var ar = value.split("=");
 			debugWrite(ar[0],ar[1]);
-			jQuery("input[name*='"+ar[0]+"']").val(urldecode(ar[1]));
+			$("input[name*='"+ar[0]+"']").val(urldecode(ar[1]));
 		});
 	} catch (e) {
 		debugWrite('url.attr("query").split("&").forEach error',e);
 	}
+	debugWrite("Заполняем элементы ввода значениями переданными в параметрах","end");
 
 	// Открытие формы вопроса перед началом использования сайта
 	// Условие - либо нет iPadID, либо в строке адреса нет параметров
-	if(((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
+	// Письмо от 02.08.2013 - Убрать вопрос по доктору до начала просмотра видео
+	if(false && ((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
 	&& (!url || (!url.attr("query") && !url.attr("fragment")))) {
-		createSurveyForm(currentLanguage);
-		showSurveyDialog();
+		var form = createSurveyForm(currentLanguage);
+		// set the page hash to our start page
+    	window.location.hash = "#"+form.attr("id");
+		//initialise jQM
+		$.mobile.initializePage();
 	} else {
-		showCurrentMenu();
+		debugWrite("Показ страницы","start");
+		// set the page hash to our start page
+		window.location.hash = "#"+$(currentMenuPage()).attr("id");
+		//initialise jQM
+		$.mobile.initializePage();
+		debugWrite("Показ страницы","end");
 	}
+
+	debugWrite('ready', 'end');
 });
 
-jQuery(document).on ("pagebeforecreate", "#languageSelector", function (event) {
+$(document).on ("pagebeforecreate", "#languageSelector", function (event) {
 	debugWrite("pagebeforecreate", "#languageSelector");
 	for(var lang in languages) {
 		var btn = "<a href='#main-"+lang+"' data-role='button'><img src='intl/flag-"+lang+".png' width='12px' height='12px' /><img src='images/none.png' width='12px' height='12px' />"+languages[lang]+"</a>";
-		jQuery(btn).appendTo(jQuery(this).find("div[data-role='content']")).jqmData("lang",lang);
+		$(btn).appendTo($(this).find("div[data-role='content']")).jqmData("lang",lang);
 	}
-	jQuery(this).find("a").bind("vclick",function(event,ui) {
+	$(this).find("a").bind("vclick",function(event,ui) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		hideSurveyDialog();
 		hideMainMenu();
 		pauseCurrentPlayer();
 		hideBuffering();
 		hideCurrentMenu();
-		currentLanguage = jQuery(this).jqmData("lang");
+		currentLanguage = $(this).jqmData("lang");
 		createPagesIfNotExists(currentLanguage);
 		showCurrentMenu();
 		return false;
