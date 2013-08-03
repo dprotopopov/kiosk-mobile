@@ -1229,6 +1229,10 @@ function createPagesIfNotExists(lang) {
 	debugWrite("createPagesIfNotExists","end");
 }
 
+var deviceReadyDeferred = $.Deferred();
+var domReadyDeferred = $.Deferred();
+var languageReadyDeferred = $.Deferred();
+
 $(document).ready(function (event) {
 	debugWrite('ready', 'start');
 	
@@ -1248,19 +1252,7 @@ $(document).ready(function (event) {
 		currentLanguage = userLang;
 	}
 	debugWrite("Использование языка браузера в качестве начального языка страниц","end");
- 
-	if($("input[name*='url']").val()==$(location).attr('href')) {
-		currentIndex = 3;
-	} else {
-		currentIndex = 0;
-	}
-	
-	if($(".InfoLabel").length) {
-		$(".InfoLabel").remove();
-		currentIndex = 4;
-		clearForm();
-	}
-	
+ 	
 	hideBuffering();
 	hideMainMenu();
 	hideSurveyDialog();
@@ -1270,7 +1262,47 @@ $(document).ready(function (event) {
 	hideDoctor();
 	debugWrite("hideDoctor","end");
 */
+
+	domReadyDeferred.resolve();
+
+	if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined'))  {
+		deviceReadyDeferred.resolve();
+		languageReadyDeferred.resolve();
+	}
 	
+	debugWrite('ready', 'end');
+});
+
+// Wait for Cordova to load
+//
+document.addEventListener("deviceready", onDeviceReady, false);
+
+// Cordova is ready
+//
+function onDeviceReady() {
+	debugWrite("onDeviceReady","start");
+	deviceReadyDeferred.resolve();
+
+	try {
+		navigator.globalization.getLocaleName(
+			function(locale) { 
+				if(languages[locale.value.substr(0,2)]) currentLanguage = locale.value.substr(0,2); 
+				languageReadyDeferred.resolve();
+			},
+			function() {
+				languageReadyDeferred.resolve();
+			}
+		)
+	} catch(e) {
+		languageReadyDeferred.resolve();
+	}
+	
+	debugWrite("onDeviceReady","end");
+}
+
+$.when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then(function() {
+	debugWrite('when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then','start');
+
 	// Создание страниц для текущего языка
 	debugWrite("Создание страниц для текущего языка","start");
 	createPagesIfNotExists(currentLanguage);
@@ -1343,7 +1375,7 @@ $(document).ready(function (event) {
 		debugWrite("Показ страницы","end");
 	}
 
-	debugWrite('ready', 'end');
+	debugWrite('when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then','end');
 });
 
 $(document).on ("pagebeforecreate", "#languageSelector", function (event) {
