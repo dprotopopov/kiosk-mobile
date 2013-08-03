@@ -1,3 +1,15 @@
+///////////////////////////////////////////////////////////////////////////////////////
+//
+// Обучающее видео компании Cryo-Cell International
+// http://cryo-cell.com
+//
+// Разработчик RBA DESIGN INTERNATIONAL LLC
+// http://rbadesign.us
+//
+// Версия для мобильных устройств
+//
+////////////////////////////////////////////////////////////////////////////////////////
+
 // Определение воспроизводимого видео
 // Задаётся видео ID на YouTube и массив видео-файлов
 // В дальнейшем в зависимости от способа воспроизведения видео
@@ -535,9 +547,9 @@ var url = false;
 function currentCallbackForm() { return $("#callbackForm",currentMenuPage()); }
 function currentMenuPage() { return $(".menu-page." + currentLanguage).get(currentIndex); }
 function currentVideoPage() { return $(".video-page." + currentLanguage).get(currentIndex); }
-function currentPlayer() { return $(currentVideoPage()).find("video").get(0); }
+function currentPlayer() { return $("video",currentVideoPage()); }
 function currentYtPlayer() { return YtPlayers[$(".ytplayer").index($(currentVideoPage()).find(".ytplayer").get(0))]; }
-function currentTubePlayer() { return $(currentVideoPage()).find(".tubeplayer").get(0); }
+function currentTubePlayer() { return $(".tubeplayer",currentVideoPage()); }
 function nextIndex(index) { index++ ; if(index >= 4) index = 3; return index; }
 function prevIndex(index) { index-- ; if(index < 0) index = 0; return index; }
 function showCurrentMenu() { $.mobile.changePage("#"+$(currentMenuPage()).attr("id")); }
@@ -564,16 +576,17 @@ function clearForm() {
 
 function playCurrentPlayer() {
 	if (currentIndex < 3) {
-		if ($(currentVideoPage()).find(".tubeplayer").length>0) {
+		var page = $(currentVideoPage());
+		if ($(".tubeplayer",page).length) {
 			try {
 				var tubeplayer = currentTubePlayer();
-				$(tubeplayer).tubeplayer("play");
+				tubeplayer.tubeplayer("play");
 			}
 			catch(e) {
 				debugWrite("tubeplayer:",e);
 			}
 		}
-		else if ($(currentVideoPage()).find(".ytplayer").length>0) {
+		else if ($(".ytplayer",page).length) {
 			try {
 				var ytplayer = currentYtPlayer();
 				ytplayer.playVideo();
@@ -596,16 +609,17 @@ function playCurrentPlayer() {
 
 function pauseCurrentPlayer() {
 	if (currentIndex < 3) {
-		if ($(currentVideoPage()).find(".tubeplayer").length>0) {
+		var page = $(currentVideoPage());
+		if ($(".tubeplayer",page).length) {
 			try {
 				var tubeplayer = currentTubePlayer();
-				$(tubeplayer).tubeplayer("pause");
+				tubeplayer.tubeplayer("pause");
 			}
 			catch(e) {
 				debugWrite("tubeplayer:",e);
 			}
 		}
-		else if ($(currentVideoPage()).find(".ytplayer").length>0) {
+		else if ($(".ytplayer",page).length) {
 			try {
 				var ytplayer = currentYtPlayer();
 				ytplayer.pauseVideo();
