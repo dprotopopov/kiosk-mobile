@@ -537,25 +537,52 @@ var languages = {
 	tw: "繁體中文"
 };
 
-var YtPlayers = new Array();
+// Определение способа воспроизведения видео с YouTube
+// Значения:
+//     tubeplayer   - использование плагина Tubeplayer (http://www.tikku.com/jquery-youtube-tubeplayer-plugin)
+//     iframeplayer - использование YouTube Player API (https://developers.google.com/youtube/iframe_api_reference)
+//     jsplayer     - использование YouTube JavaScript Player API (https://developers.google.com/youtube/js_api_reference)
+var PlayerApi = "tubeplayer";
+
+// Используется для YouTube Player API
+var YtPlayers = {};
+
+var deviceReadyDeferred = $.Deferred();
+var domReadyDeferred = $.Deferred();
+var languageReadyDeferred = $.Deferred();
+var iframePlayerAPIReadyDeferred = $.Deferred();
+var playerReadyDeferred = {};
+var playerActivated = {};
 
 var currentIndex = 0;
 var currentLanguage = "en";
 
 var url = false;
 
+function isMobileSafari() {
+    return navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/AppleWebKit/) && (typeof kioskpro_id === 'undefined');
+}
+
 function currentCallbackForm() { return $("#callbackForm",currentMenuPage()); }
 function currentMenuPage() { return $(".menu-page." + currentLanguage).get(currentIndex); }
 function currentVideoPage() { return $(".video-page." + currentLanguage).get(currentIndex); }
 function currentPlayer() { return $(currentVideoPage()).find("video").get(0); }
-function currentYtPlayer() { return YtPlayers[$(".ytplayer").index($(currentVideoPage()).find(".ytplayer").get(0))]; }
+function currentJsPlayer() { return document.getElementById("jsplayer-"+$(currentVideoPage()).attr("id")); }
+function currentFramePlayer() { return YtPlayers[$(currentVideoPage()).attr("id")]; }
 function currentTubePlayer() { return $(".tubeplayer",currentVideoPage()); }
 function nextIndex(index) { index++ ; if(index >= 4) index = 3; return index; }
 function prevIndex(index) { index-- ; if(index < 0) index = 0; return index; }
 function showCurrentMenu() { $.mobile.changePage("#"+$(currentMenuPage()).attr("id")); }
 function hideCurrentMenu() { }
 function showCurrentVideo() { }
-function hideCurrentVideo() { }
+function hideCurrentVideo() { 
+	var playerid = "jsplayer-"+$(currentVideoPage()).attr("id");
+	playerReadyDeferred[playerid] = $.Deferred();
+//	if(isMobileSafari()) {
+//		destroyCurrentPlayer();
+//		createYoutubePlayer($(currentVideoPage()));
+//	}
+}
 function showBuffering() { $("#buffering").hide(); }
 function hideBuffering() { $("#buffering").hide(); }
 function hideMainMenu() { $('.mainmenu').hide(); }
@@ -580,16 +607,34 @@ function playCurrentPlayer() {
 		if ($(".tubeplayer",page).length) {
 			try {
 				var tubeplayer = currentTubePlayer();
-				tubeplayer.tubeplayer("play");
+				var playerid = $(tubeplayer).attr("id");
+				if(playerActivated[playerid]) $.when(playerReadyDeferred[playerid]).then(function() {
+					tubeplayer.tubeplayer("play");
+				});
 			}
 			catch(e) {
 				debugWrite("tubeplayer:",e);
 			}
 		}
-		else if ($(".ytplayer",page).length) {
+		else if ($(".iframeplayer",page).length) {
 			try {
-				var ytplayer = currentYtPlayer();
-				ytplayer.playVideo();
+				var iframeplayer = currentFramePlayer();
+				var playerid = iframeplayer.a.id;
+				if(playerActivated[playerid]) $.when(playerReadyDeferred[playerid]).then(function() {
+					iframeplayer.playVideo();
+				});
+			}
+			catch(e) {
+				debugWrite("youtube player api:",e);
+			}
+		}
+		else if (typeof kioskpro_id === 'undefined' && PlayerApi == 'jsplayer') {
+			try {
+				var jsplayer = currentJsPlayer();
+				var playerid = $(jsplayer).attr("id");
+				if(playerActivated[playerid]) $.when(playerReadyDeferred[playerid]).then(function() {
+					jsplayer.playVideo();
+				});
 			}
 			catch(e) {
 				debugWrite("youtube player api:",e);
@@ -598,7 +643,8 @@ function playCurrentPlayer() {
 		else {
 			try {
 				var player = currentPlayer();
-				player.play();
+				var playerid = $(player).attr("id");
+				if(playerActivated[playerid]) player.play();
 			}
 			catch(e) {
 				debugWrite("video html5:",e);
@@ -613,16 +659,34 @@ function pauseCurrentPlayer() {
 		if ($(".tubeplayer",page).length) {
 			try {
 				var tubeplayer = currentTubePlayer();
-				tubeplayer.tubeplayer("pause");
+				var playerid = $(tubeplayer).attr("id");
+				$.when(playerReadyDeferred[playerid]).then(function() {
+					tubeplayer.tubeplayer("pause");
+				});
 			}
 			catch(e) {
 				debugWrite("tubeplayer:",e);
 			}
 		}
-		else if ($(".ytplayer",page).length) {
+		else if ($(".iframeplayer",page).length) {
 			try {
-				var ytplayer = currentYtPlayer();
-				ytplayer.pauseVideo();
+				var iframeplayer = currentFramePlayer();
+				var playerid = iframeplayer.a.id;
+				$.when(playerReadyDeferred[playerid]).then(function() {
+					iframeplayer.pauseVideo();
+				});
+			}
+			catch(e) {
+				debugWrite("youtube player api:",e);
+			}
+		}
+		else if (typeof kioskpro_id === 'undefined' && PlayerApi == 'jsplayer') {
+			try {
+				var jsplayer = currentJsPlayer();
+				var playerid = $(jsplayer).attr("id");
+				$.when(playerReadyDeferred[playerid]).then(function() {
+					jsplayer.pauseVideo();
+				});
 			}
 			catch(e) {
 				debugWrite("youtube player api:",e);
@@ -640,6 +704,82 @@ function pauseCurrentPlayer() {
 	}
 }
 
+function activateCurrentPlayer() {
+	if (currentIndex < 3) {
+		var page = $(currentVideoPage());
+		if ($(".tubeplayer",page).length) {
+			var tubeplayer = currentTubePlayer();
+			var playerid = $(tubeplayer).attr("id");
+			playerActivated[playerid] = true;
+		}
+		else if ($(".iframeplayer",page).length) {
+			var iframeplayer = currentFramePlayer();
+			var playerid = iframeplayer.a.id;
+			playerActivated[playerid] = true;
+		}
+		else if (typeof kioskpro_id === 'undefined' && PlayerApi == 'jsplayer') {
+			var jsplayer = currentJsPlayer();
+			var playerid = $(jsplayer).attr("id");
+			playerActivated[playerid] = true;
+		}
+		else {
+			var player = currentPlayer();
+			var playerid = $(player).attr("id");
+			playerActivated[playerid] = true;
+		}
+	}
+}
+
+function destroyCurrentPlayer() {
+	if (currentIndex < 3) {
+		var page = $(currentVideoPage());
+		if ($(".tubeplayer",page).length) {
+			try {
+				var tubeplayer = currentTubePlayer();
+				var playerid = $(tubeplayer).attr("id");
+				$.when(playerReadyDeferred[playerid]).then(function() {
+					tubeplayer.tubeplayer("destroy");
+				});
+			}
+			catch(e) {
+				debugWrite("tubeplayer:",e);
+			}
+		}
+//		else if ($(".iframeplayer",page).length) {
+//			try {
+//				var iframeplayer = currentFramePlayer();
+//				var playerid = iframeplayer.a.id;
+//				$.when(playerReadyDeferred[playerid]).then(function() {
+//					iframeplayer.pauseVideo();
+//				});
+//			}
+//			catch(e) {
+//				debugWrite("youtube player api:",e);
+//			}
+//		}
+//		else if (typeof kioskpro_id === 'undefined' && PlayerApi == 'jsplayer') {
+//			try {
+//				var jsplayer = currentJsPlayer();
+//				var playerid = $(jsplayer).attr("id");
+//				$.when(playerReadyDeferred[playerid]).then(function() {
+//					jsplayer.pauseVideo();
+//				});
+//			}
+//			catch(e) {
+//				debugWrite("youtube player api:",e);
+//			}
+//		}
+//		else {
+//			try {
+//				var player = currentPlayer();
+//				player.pause();
+//			}
+//			catch(e) {
+//				debugWrite("video html5:",e);
+//			}
+//		}
+	}
+}
 
 function getID() {
 	if(typeof kioskpro_id === 'undefined') {
@@ -656,51 +796,91 @@ function getID() {
 
 
 /*  
-function onYouTubePlayerAPIReady() {
-	debugWrite("YouTube Player API is ready!");
-	$(".ytplayer").each(function(i,e) {
-		var ytplayer;
-		ytplayer = new YT.Player($(this).attr("id"), {
-          	width: '280',
-			height: '200',
-		  	allowfullscreen: 'true',
-		  	videoId: $(this).attr("videoId"),
-		  	events: {
-				'onReady': onPlayerReady,
-				'onStateChange': onPlayerStateChange,
-				'onError': onPlayerError
-		  	}
-		});
-		YtPlayers.push(ytplayer);
-	});
+// YouTube JavaScript Player API  
+function onYouTubePlayerReady(playerid) {
+	debugWrite("onYouTubePlayerReady",playerid);
+	playerReadyDeferred[playerid].resolve();
+	var player = document.getElementById(playerid);
+	player.addEventListener("onStateChange", "onStateChange");
+	player.addEventListener("onError", "onError");		
+}
+
+function onStateChange(state) {
+	debugWrite("onStateChange",state);
+	switch(state) {
+	case 0:
+		hideCurrentVideoStop();
+		hideCurrentVideoContact();
+		hideCurrentVideo();
+		hideBuffering();
+		currentIndex = nextIndex(currentIndex);
+		showCurrentMenu();
+	  	break;
+	case 1:
+		activateCurrentPlayer();
+		hideBuffering();
+		hideCurrentVideoStop();
+		hideCurrentVideoContact();
+		showCurrentVideo();
+		hideCurrentMenu();
+	  	break;
+	case 2:
+	  	hideBuffering();
+		showCurrentVideoStop();
+		showCurrentVideoContact();
+		break;
+	case 3:
+//		showBuffering();
+		break;
+	}
+}
+
+function onError(error) {
+	debugWrite("onError",error);
+}
+
+// Событие инициализации YouTube Player API
+function onYouTubeIframeAPIReady() {
+	iframePlayerAPIReadyDeferred.resolve();
 }
 
 function onPlayerError(event) {
-	debugWrite(event.data);
+	debugWrite("onPlayerError",event);
 }
-  
+
 function onPlayerReady(event) {
+	debugWrite("onPlayerReady",event);
+	var playerid = event.target.a.id;
+	playerReadyDeferred[playerid].resolve();
   	hideBuffering();
 }
 
 function onPlayerStateChange(event) {
-//	debugWrite("Player's new state: " + event.data);
+	debugWrite("onPlayerStateChange",event);
 	switch(event.data) {
 	case YT.PlayerState.BUFFERING:
 //		showBuffering();
 		break;
 	case YT.PlayerState.PAUSED:
 	  	hideBuffering();
+		showCurrentVideoStop();
+		showCurrentVideoContact();
 		break;
 	case YT.PlayerState.ENDED:
-	  	hideMainMenu();
-	  	hideCurrentVideo();
-	  	hideBuffering();
-	  	currentIndex = nextIndex(currentIndex);
-	  	showCurrentMenu();
+		hideCurrentVideoStop();
+		hideCurrentVideoContact();
+		hideCurrentVideo();
+		hideBuffering();
+		currentIndex = nextIndex(currentIndex);
+		showCurrentMenu();
 	  	break;
 	case YT.PlayerState.PLAYING:
-	  	hideBuffering();
+		activateCurrentPlayer();
+		hideBuffering();
+		hideCurrentVideoStop();
+		hideCurrentVideoContact();
+		showCurrentVideo();
+		hideCurrentMenu();
 	  	break;
 	}
 }
@@ -708,7 +888,10 @@ function onPlayerStateChange(event) {
 
 // Событие инициализации tubeplayer	  	  
 $.tubeplayer.defaults.afterReady = function($player){
-  	hideBuffering();
+	debugWrite("$.tubeplayer.defaults.afterReady",$player);
+	var playerid = $player.attr("id");
+	playerReadyDeferred[playerid].resolve();
+	hideBuffering();
 }
 
 // Процедура кросс-доменной отправки содержимого формы ввода
@@ -788,6 +971,7 @@ function urldecode (str) {
 // Обработка try-catch требуется для совместимости с IE
 function debugWrite(a,b) {
 	try {
+//		console.log(a,b);
 		console.log(a+":"+b);
 	} catch (e) {
 	}
@@ -868,83 +1052,23 @@ function createSurveyForm(lang) {
 	return form;
 }
 
-
-function createMenuVideoPage(lang, pageId) {
-	debugWrite("createMenuVideoPage","start");
-	debugWrite("pageId",pageId);
-	debugWrite("lang",lang);
-	var page = $(".menuvideo-page-template#"+pageId).clone();
-	page.appendTo($("body")).removeClass("menuvideo-page-template").addClass("menu-page").addClass("video-page");
-	page.addClass(lang);
-	page.prepend(createHeader(lang));
-	page.append(createFooter(lang));
-	page.find("div[data-role='content']").prepend(createMainmenu(lang));
-	page.find("#title").html(pages[lang][pageId].title);
-	page.find("#subtitle").html(pages[lang][pageId].subtitle);
-	page.attr("id",pageId+"-"+lang);
-	page.attr("data-role","page");
-	
-	for(var lblFor in formLabels[lang]) {
-		page.find("label[for='"+lblFor+"']").text(formLabels[lang][lblFor]);
-	}
-	
-	for(var btn in menuButtons[lang]) {
-		page.find("."+btn+"").text(menuButtons[lang][btn].text);
-	}
-
-	var languageSelector = "<img src='intl/flag-"+lang+".png' width='12px' height='12px' /><img src='images/none.png' width='12px' height='12px' />"+languages[lang];
-	page.find(".languageSelector").html(languageSelector);
-	
-	for(var vid in videos[lang]) {
-		page.find("#"+vid).attr("videoId",videos[lang][vid].videoId);
-	}
-	
-	page.find("video").each(function(i,e) {
-		var player = this;
-			
-//		player.onvclick = function(e){
-//			this.pause();
-//		};
-		player.addEventListener("ended", function(e){
-			$(this).fullScreen(false);
-			hideMainMenu();
-			hideCurrentVideo();
-			hideBuffering();
-			currentIndex = nextIndex(currentIndex);
-			showCurrentMenu();
-		}, false);
-		player.addEventListener("playing", function(e){
-			hideBuffering();
-			$(this).fullScreen(true);
-//			hideCurrentMenu();
-//			showCurrentVideo();
-		}, false);
-//		player.addEventListener("pause", function(e){
-//			hideCurrentVideo();
-//			hideBuffering();
-//			showCurrentMenu();
-//		}, false);
-		player.addEventListener("waiting", function(e){
-			showBuffering();
-		}, false);
-		player.addEventListener("error", function(e){
-			debugWrite("an error in playback.");
-		}, false);
-	});
-
+function createYoutubePlayer(page) {
+	debugWrite("Инициализация tubeplayer","start");
 	page.find(".tubeplayer").each(function(i,e) {
-		debugWrite('tubeplayer', 'init');
-		$(this).tubeplayer({
+		var playerid = $(e).attr("id");
+		playerActivated[playerid] = !isMobileSafari();
+		playerReadyDeferred[playerid] = $.Deferred();
+		$(e).tubeplayer({
 			width: 280, // the width of the player
 			height: 200, // the height of the player
 			allowFullScreen: "true", // true by default, allow user to go full screen
-			initialVideo: $(this).attr("videoId"), // the video that is loaded into the player
+			initialVideo: $(e).attr("videoId"), // the video that is loaded into the player
 			start: 0, 
 			preferredQuality: "default",// preferred quality: default, small, medium, large, hd720
 			showControls: 1, // whether the player should have the controls visible, 0 or 1
 			showRelated: 0, // show the related videos when the player ends, 0 or 1 
 			autoPlay: false, // whether the player should autoplay the video, 0 or 1
-			autoHide: true, 
+			autoHide: false, 
 			theme: "dark", // possible options: "dark" or "light"
 			color: "red", // possible options: "red" or "white"
 			showinfo: false, // if you want the player to include details about the video
@@ -994,6 +1118,106 @@ function createMenuVideoPage(lang, pageId) {
 			} // if we've got an invalid param
 		});
 	});
+	debugWrite("Инициализация tubeplayer","end");
+
+	debugWrite("Инициализация iframeplayer","start");
+	page.find(".iframeplayer").each(function(i,e) {
+		var playerid = $(e).attr("id");
+		playerActivated[playerid] = !isMobileSafari();
+		playerReadyDeferred[playerid] = $.Deferred();
+		var player = new YT.Player(playerid, {
+          	width: "280",
+			height: '200',
+		  	allowfullscreen: 'true',
+		  	videoId: $(e).attr("videoId"),
+		  	events: {
+				'onReady': onPlayerReady,
+				'onStateChange': onPlayerStateChange,
+				'onError': onPlayerError
+		  	}
+		});
+		YtPlayers[page.attr("id")] = player;
+		debugWrite("new YT.Player",$(e).attr("videoId"));
+	});
+	debugWrite("Инициализация iframeplayer","end");
+
+	debugWrite("Инициализация jsplayer","start");
+	page.find(".jsplayer").each(function(i,e) {
+		var playerid = "jsplayer-"+$(e).parent().attr("id");
+		var params = { allowScriptAccess: "always" };
+		var atts = { id: playerid };
+		playerActivated[playerid] = !isMobileSafari();
+		playerReadyDeferred[playerid] = $.Deferred();
+		swfobject.embedSWF("http://www.youtube.com/v/"+$(this).attr("videoId")+"?enablejsapi=1&playerapiid="+playerid+"&version=3",$(e).attr("id"), "280", "200", "8", null, null, params, atts);
+		debugWrite("embedSWF",$(e).attr("videoId"));
+	});
+	debugWrite("Инициализация jsplayer","end");
+}
+
+function createMenuVideoPage(lang, pageId) {
+	debugWrite("createMenuVideoPage","start");
+	debugWrite("pageId",pageId);
+	debugWrite("lang",lang);
+	var page = $(".menuvideo-page-template#"+pageId).clone();
+	page.appendTo($("body")).removeClass("menuvideo-page-template").addClass("menu-page").addClass("video-page");
+	page.addClass(lang);
+	page.prepend(createHeader(lang));
+	page.append(createFooter(lang));
+	page.find("div[data-role='content']").prepend(createMainmenu(lang));
+	page.find("#title").html(pages[lang][pageId].title);
+	page.find("#subtitle").html(pages[lang][pageId].subtitle);
+	page.attr("id",pageId+"-"+lang);
+	page.attr("data-role","page");
+	
+	for(var lblFor in formLabels[lang]) {
+		page.find("label[for='"+lblFor+"']").text(formLabels[lang][lblFor]);
+	}
+	
+	for(var btn in menuButtons[lang]) {
+		page.find("."+btn+"").text(menuButtons[lang][btn].text);
+	}
+
+	var languageSelector = "<img src='intl/flag-"+lang+".png' width='12px' height='12px' /><img src='images/none.png' width='12px' height='12px' />"+languages[lang];
+	page.find(".languageSelector").html(languageSelector);
+	
+	for(var vid in videos[lang]) {
+		page.find("#"+vid).attr("videoId",videos[lang][vid].videoId).attr("id",page.attr("id"));
+	}
+	
+	page.find("video").each(function(i,e) {
+		var player = e;
+			
+//		player.onvclick = function(e){
+//			this.pause();
+//		};
+		player.addEventListener("ended", function(e){
+			$(this).fullScreen(false);
+			hideMainMenu();
+			hideCurrentVideo();
+			hideBuffering();
+			currentIndex = nextIndex(currentIndex);
+			showCurrentMenu();
+		}, false);
+		player.addEventListener("playing", function(e){
+			hideBuffering();
+			$(this).fullScreen(true);
+//			hideCurrentMenu();
+//			showCurrentVideo();
+		}, false);
+//		player.addEventListener("pause", function(e){
+//			hideCurrentVideo();
+//			hideBuffering();
+//			showCurrentMenu();
+//		}, false);
+		player.addEventListener("waiting", function(e){
+			showBuffering();
+		}, false);
+		player.addEventListener("error", function(e){
+			debugWrite("an error in playback.");
+		}, false);
+	});
+
+	createYoutubePlayer(page);
 	
 	// Проверка встроенной поддержки для <input type="date">
 	// Если нет встроенной поддержки для <input type="date">,
@@ -1120,6 +1344,19 @@ function createMenuVideoPage(lang, pageId) {
 		return false;
 	});
 			
+	page.find(".save").dblclick(function(event) {
+		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
+		hideSurveyDialog();
+		hideMainMenu();
+		pauseCurrentPlayer();
+		hideBuffering();
+		hideCurrentMenu();
+		currentIndex = nextIndex(currentIndex);
+        clearForm();
+		showCurrentMenu();
+		return false;
+	});
+
 	page.find(".next").bind("vclick",function(event) {
 		if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; }
 		hideSurveyDialog();
@@ -1229,10 +1466,6 @@ function createPagesIfNotExists(lang) {
 	debugWrite("createPagesIfNotExists","end");
 }
 
-var deviceReadyDeferred = $.Deferred();
-var domReadyDeferred = $.Deferred();
-var languageReadyDeferred = $.Deferred();
-
 $(document).ready(function (event) {
 	debugWrite('ready', 'start');
 	
@@ -1270,6 +1503,19 @@ $(document).ready(function (event) {
 		languageReadyDeferred.resolve();
 	}
 	
+	if(typeof kioskpro_id === 'undefined' && PlayerApi == "iframeplayer") {
+	// Инициализация для YouTube Player API
+		debugWrite("Инициализация YouTube Player API","start");
+		// Load the IFrame Player API code asynchronously.
+		var tag = document.createElement('script');
+		tag.src = "https://www.youtube.com/iframe_api";
+		var firstScriptTag = document.getElementsByTagName('script')[0];
+		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+		debugWrite("Инициализация YouTube Player API","end");
+	} else {
+		iframePlayerAPIReadyDeferred.resolve();
+	}
+	
 	debugWrite('ready', 'end');
 });
 
@@ -1300,8 +1546,8 @@ function onDeviceReady() {
 	debugWrite("onDeviceReady","end");
 }
 
-$.when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then(function() {
-	debugWrite('when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then','start');
+$.when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred, iframePlayerAPIReadyDeferred).then(function() {
+	debugWrite('when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred, iframePlayerAPIReadyDeferred).then','start');
 
 	// Создание страниц для текущего языка
 	debugWrite("Создание страниц для текущего языка","start");
@@ -1375,7 +1621,7 @@ $.when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then(functi
 		debugWrite("Показ страницы","end");
 	}
 
-	debugWrite('when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred).then','end');
+	debugWrite('when(deviceReadyDeferred, domReadyDeferred, languageReadyDeferred, iframePlayerAPIReadyDeferred).then','end');
 });
 
 $(document).on ("pagebeforecreate", "#languageSelector", function (event) {
