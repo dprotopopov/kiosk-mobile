@@ -353,7 +353,7 @@
 			},
 			page5: { 
 				title: "Gracias",
-				subtitle: "Su solicitud ha sido enviada.<br />Muy pronto uno de nuestros asesores de servicio al cliente se pondrá en contacto con usted"
+				subtitle: "Su solicitud ha sido enviada.<br />Muy pronto uno de nuestros asesores de servicio al cliente se pondrá en contacto con usted."
 			}
 		},
 		ru: {
