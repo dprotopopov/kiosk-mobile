@@ -10,7 +10,40 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
+// YouTube JavaScript Player API  
+var onYouTubePlayerReady;
+var onStateChange;
+var onError;
+
+// Событие инициализации YouTube Player API
+var onYouTubePlayerAPIReady;
+var onPlayerError;
+var onPlayerReady;
+var onPlayerStateChange;
+
 (function ($) {
+	// Определение способа воспроизведения видео с YouTube
+	// Значения:
+	//     tubeplayer   - использование плагина Tubeplayer (http://www.tikku.com/jquery-youtube-tubeplayer-plugin)
+	//     iframeplayer - использование YouTube Player API (https://developers.google.com/youtube/iframe_api_reference)
+	//     jsplayer     - использование YouTube JavaScript Player API (https://developers.google.com/youtube/js_api_reference)
+	var PlayerApi = "tubeplayer";
+	
+	// Используется для YouTube Player API
+	var YtPlayers = {};
+	
+	var deviceReadyDeferred = $.Deferred();
+	var domReadyDeferred = $.Deferred();
+	var languageReadyDeferred = $.Deferred();
+	var iframePlayerAPIReadyDeferred = $.Deferred();
+	var playerReadyDeferred = {};
+	var playerActivated = {};
+	
+	var currentIndex = 0;
+	var currentLanguage = "en";
+	
+	var url = false;
+	
 	// Определение воспроизводимого видео
 	// Задаётся видео ID на YouTube и массив видео-файлов
 	// В дальнейшем в зависимости от способа воспроизведения видео
@@ -538,33 +571,17 @@
 		tw: "繁體中文"
 	};
 	
-	// Определение способа воспроизведения видео с YouTube
-	// Значения:
-	//     tubeplayer   - использование плагина Tubeplayer (http://www.tikku.com/jquery-youtube-tubeplayer-plugin)
-	//     iframeplayer - использование YouTube Player API (https://developers.google.com/youtube/iframe_api_reference)
-	//     jsplayer     - использование YouTube JavaScript Player API (https://developers.google.com/youtube/js_api_reference)
-	var PlayerApi = "tubeplayer";
-	
-	// Используется для YouTube Player API
-	var YtPlayers = {};
-	
-	var deviceReadyDeferred = $.Deferred();
-	var domReadyDeferred = $.Deferred();
-	var languageReadyDeferred = $.Deferred();
-	var iframePlayerAPIReadyDeferred = $.Deferred();
-	var playerReadyDeferred = {};
-	var playerActivated = {};
-	
-	var currentIndex = 0;
-	var currentLanguage = "en";
-	
-	var url = false;
+	try {
+		var kioskId = (kioskpro_id.toString().split(" ").join(""));
+		localStorage.setItem("KioskProID", kioskId);
+	} catch (e) {
+	}
 	
 	// Определение ID, заданного в Kiosk Pro
 	function getID() {
 		var iPadID = "iPadID is not set";
 		try {
-			iPadID = kioskpro_id.toString().split(" ").join("");
+			iPadID = localStorage.getItem("KioskProID");
 		} catch(e) {
 			iPadID = "iPadID is not set";
 		}
@@ -574,7 +591,8 @@
 	function isKioskPro() {
 		var bool = true;
 		try {
-			bool = kioskpro_id.toString().split(" ").join("") != "";
+			var iPadID = localStorage.getItem("KioskProID");
+			bool = iPadID && iPadID != "";
 		} catch(e) {
 			bool = false;
 		}
@@ -672,7 +690,7 @@
 					debugWrite("youtube player api:",e);
 				}
 			}
-			else if (typeof kioskpro_id === 'undefined' && PlayerApi == 'jsplayer') {
+			else if ((!isKioskPro()) && PlayerApi == 'jsplayer') {
 				try {
 					var jsplayer = currentJsPlayer();
 					var playerid = $(jsplayer).attr("id");
@@ -724,7 +742,7 @@
 					debugWrite("youtube player api:",e);
 				}
 			}
-			else if (typeof kioskpro_id === 'undefined' && PlayerApi == 'jsplayer') {
+			else if ((!isKioskPro()) && PlayerApi == 'jsplayer') {
 				try {
 					var jsplayer = currentJsPlayer();
 					var playerid = $(jsplayer).attr("id");
@@ -761,7 +779,7 @@
 				var playerid = iframeplayer.a.id;
 				playerActivated[playerid] = true;
 			}
-			else if (typeof kioskpro_id === 'undefined' && PlayerApi == 'jsplayer') {
+			else if ((!isKioskPro()) && PlayerApi == 'jsplayer') {
 				var jsplayer = currentJsPlayer();
 				var playerid = $(jsplayer).attr("id");
 				playerActivated[playerid] = true;
@@ -799,7 +817,7 @@
 	//				debugWrite("youtube player api:",e);
 	//			}
 	//		}
-	//		else if (typeof kioskpro_id === 'undefined' && PlayerApi == 'jsplayer') {
+	//		else if ((!isKioskPro()) && PlayerApi == 'jsplayer') {
 	//			try {
 	//				var jsplayer = currentJsPlayer();
 	//				var playerid = $(jsplayer).attr("id");
@@ -824,9 +842,8 @@
 	}
 		
 	
-	/*  
 	// YouTube JavaScript Player API  
-	function onYouTubePlayerReady(playerid) {
+	onYouTubePlayerReady = function (playerid) {
 		debugWrite("onYouTubePlayerReady",playerid);
 		playerReadyDeferred[playerid].resolve();
 		var player = document.getElementById(playerid);
@@ -834,7 +851,7 @@
 		player.addEventListener("onError", "onError");		
 	}
 	
-	function onStateChange(state) {
+	onStateChange = function (state) {
 		debugWrite("onStateChange",state);
 		switch(state) {
 		case 0:
@@ -864,27 +881,27 @@
 		}
 	}
 	
-	function onError(error) {
+	onError = function (error) {
 		debugWrite("onError",error);
 	}
 	
 	// Событие инициализации YouTube Player API
-	function onYouTubeIframeAPIReady() {
+	onYouTubeIframeAPIReady = function () {
 		iframePlayerAPIReadyDeferred.resolve();
 	}
 	
-	function onPlayerError(event) {
+	onPlayerError = function (event) {
 		debugWrite("onPlayerError",event);
 	}
 	
-	function onPlayerReady(event) {
+	onPlayerReady = function (event) {
 		debugWrite("onPlayerReady",event);
 		var playerid = event.target.a.id;
 		playerReadyDeferred[playerid].resolve();
 		hideBuffering();
 	}
 	
-	function onPlayerStateChange(event) {
+	onPlayerStateChange = function (event) {
 		debugWrite("onPlayerStateChange",event);
 		switch(event.data) {
 		case YT.PlayerState.BUFFERING:
@@ -913,7 +930,6 @@
 			break;
 		}
 	}
-	*/
 	
 	// Событие инициализации tubeplayer	  	  
 	$.tubeplayer.defaults.afterReady = function($player){
@@ -1527,12 +1543,12 @@
 	
 		domReadyDeferred.resolve();
 	
-		if ((typeof cordova == 'undefined') && (typeof Cordova == 'undefined'))  {
+		if (!isCordova())  {
 			deviceReadyDeferred.resolve();
 			languageReadyDeferred.resolve();
 		}
 		
-		if(typeof kioskpro_id === 'undefined' && PlayerApi == "iframeplayer") {
+		if((!isKioskPro()) && PlayerApi == "iframeplayer") {
 		// Инициализация для YouTube Player API
 			debugWrite("Инициализация YouTube Player API","start");
 			// Load the IFrame Player API code asynchronously.
@@ -1583,18 +1599,6 @@
 		createPagesIfNotExists(currentLanguage);
 		debugWrite("Создание страниц для текущего языка","end");
 			
-	/*
-		// Инициализация для YouTube Player API
-		if ($(".ytplayer").length) {	
-			debugWrite('ytplayer', 'init');
-			// Load the IFrame Player API code asynchronously.
-			var tag = document.createElement('script');
-			tag.src = "https://www.youtube.com/player_api";
-			var firstScriptTag = document.getElementsByTagName('script')[0];
-			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-		}
-	*/
-	
 		debugWrite("Устанавливаем типы полей ввода","start");
 		$("input[name*='expected_delivery_date']").attr("type","date");
 		$("input[name*='due_date']").attr("type","date");
@@ -1634,8 +1638,7 @@
 		// Открытие формы вопроса перед началом использования сайта
 		// Условие - либо нет iPadID, либо в строке адреса нет параметров
 		// Письмо от 02.08.2013 - Убрать вопрос по доктору до начала просмотра видео
-		if(false && ((typeof kioskpro_id === 'undefined') || !kioskpro_id.toString().split(" ").join(""))
-		&& (!url || (!url.attr("query") && !url.attr("fragment")))) {
+		if(false && (!isKioskPro())	&& (!url || (!url.attr("query") && !url.attr("fragment")))) {
 			var form = createSurveyForm(currentLanguage);
 			// set the page hash to our start page
 			window.location.hash = "#"+form.attr("id");
